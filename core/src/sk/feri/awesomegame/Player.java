@@ -2,11 +2,6 @@
 package sk.feri.awesomegame;
 
 
- import com.badlogic.gdx.Game;
- import com.badlogic.gdx.Gdx;
-
- import sun.rmi.runtime.Log;
-
  public class Player extends DynamicGameObject {
 	public static final int PLAYER_STATE_NORMAL = 0;
 	public static final int PLAYER_STATE_HIT = 1;
