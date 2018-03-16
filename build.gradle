@@ -2,7 +2,7 @@ import groovy.json.JsonSlurper
 
 buildscript {
 
-    ant.get(src: 'http://libgdx.badlogicgames.com/libgdx-site/service/getVersions?release=false', dest: 'versions.json')
+    //ant.get(src: 'http://libgdx.badlogicgames.com/libgdx-site/service/getVersions?release=false', dest: 'versions.json')
     def versionFile = file('versions.json')
     def json
     if (versionFile.exists()) {
