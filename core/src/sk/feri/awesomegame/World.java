@@ -35,6 +35,7 @@ public class World {
 	public final List<Coin> coins;
     public final List<Supply> supplies;
 	public final List<Block> blocks;
+	public final List<SquareBlock> squareBlocks;
 	public Castle castle;
 	public final WorldListener listener;
 	public final Random rand;
@@ -50,6 +51,7 @@ public class World {
 		this.coins = new ArrayList<Coin>();
         this.supplies = new ArrayList<Supply>();
 		this.blocks = new ArrayList<Block>();
+		this.squareBlocks = new ArrayList<SquareBlock>();
 		this.listener = listener;
 		rand = new Random();
 		generateLevel();
@@ -66,8 +68,10 @@ public class World {
 			int type = rand.nextFloat() > 0.8f ? Block.BLOCK_TYPE_MOVING : Block.BLOCK_TYPE_STATIC;
 			float x = rand.nextFloat() * (WORLD_WIDTH - Block.BLOCK_WIDTH) + Block.BLOCK_WIDTH / 2;
 
-			Block block = new Block(type, x, y+20, 2);
-			blocks.add(block);
+			//Block block = new Block(type, x, y+20, 2);
+			//blocks.add(block);
+			SquareBlock block = new SquareBlock(type, x, y+20, 2);
+			squareBlocks.add(block);
 
 
 			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
@@ -108,6 +112,7 @@ public class World {
 		updateProjectiles(deltaTime);
         updateSupplies(deltaTime);
 		updateBlocks(deltaTime);
+		updateSquareBlocks(deltaTime);
 		if (player.state != Player.PLAYER_STATE_HIT) checkCollisions();
 		checkGameOver();
 	}
@@ -126,6 +131,18 @@ public class World {
 			Block block = blocks.get(i);
 			block.update(deltaTime);
 			if (block.state == Block.BLOCK_STATE_PULVERIZING && block.stateTime > Block.BLOCK_STATE_PULVERIZING) {
+				blocks.remove(block);
+				len = blocks.size();
+			}
+		}
+	}
+
+	private void updateSquareBlocks (float deltaTime) {
+		int len = squareBlocks.size();
+		for (int i = 0; i < len; i++) {
+			SquareBlock block = squareBlocks.get(i);
+			block.update(deltaTime);
+			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING && block.stateTime > SquareBlock.BLOCK_STATE_PULVERIZING) {
 				blocks.remove(block);
 				len = blocks.size();
 			}
@@ -183,6 +200,7 @@ public class World {
 		checkItemCollisions();
 		checkCastleCollisions();
 		checkBlockCollisions();
+		checkSquareBlockCollisions();
 	}
 
 
@@ -198,6 +216,26 @@ public class World {
 			for (int j = 0; j < len_proj; j++) {
 				Projectile projectile = projectiles.get(j);
 				if (block.bounds.overlaps(projectile.bounds) && block.state != Block.BLOCK_STATE_PULVERIZING && projectile.state != Projectile.PROJECTILE_STATE_DESTROY) {
+					listener.hit();
+					block.hitProjectile();
+					projectile.hitBox();
+				}
+			}
+		}
+	}
+
+	private void checkSquareBlockCollisions () {
+		int len = squareBlocks.size();
+		int len_proj = projectiles.size();
+		for (int i = 0; i < len; i++) {
+			SquareBlock block = squareBlocks.get(i);
+			if (block.bounds.overlaps(player.bounds) && block.state != SquareBlock.BLOCK_STATE_PULVERIZING) {
+				player.hitBlock();
+				listener.hit();
+			}
+			for (int j = 0; j < len_proj; j++) {
+				Projectile projectile = projectiles.get(j);
+				if (block.bounds.overlaps(projectile.bounds) && block.state != SquareBlock.BLOCK_STATE_PULVERIZING && projectile.state != Projectile.PROJECTILE_STATE_DESTROY) {
 					listener.hit();
 					block.hitProjectile();
 					projectile.hitBox();

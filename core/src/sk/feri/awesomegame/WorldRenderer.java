@@ -43,6 +43,7 @@ public class WorldRenderer {
 		renderCastle();
 		renderProjectiles();
 		renderBlocks();
+		renderSquareBlocks();
 		batch.end();
 	}
 
@@ -76,6 +77,18 @@ public class WorldRenderer {
 			}
 
 			batch.draw(keyFrame, block.position.x - 1, block.position.y - 0.25f, 2, 0.5f);
+		}
+	}
+	private void renderSquareBlocks() {
+		int len = world.squareBlocks.size();
+		for (int i = 0; i < len; i++) {
+			SquareBlock block = world.squareBlocks.get(i);
+			TextureRegion keyFrame = Assets.SquareBlock;
+			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING) {
+				keyFrame = Assets.brakingBlock.getKeyFrame(block.stateTime, Animation.ANIMATION_NONLOOPING);
+			}
+
+			batch.draw(keyFrame, block.position.x - 1, block.position.y - 0.25f, 0.5f, 0.5f);
 		}
 	}
 

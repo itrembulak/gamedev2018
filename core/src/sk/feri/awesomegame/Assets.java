@@ -32,6 +32,7 @@ public class Assets {
 	public static TextureRegion playerHit;
 	public static Animation enemyFly;
 	public static TextureRegion block;
+	public static TextureRegion SquareBlock;
 	public static Animation brakingBlock;
 	public static BitmapFont font;
 
@@ -73,7 +74,7 @@ public class Assets {
 		playerNormal = new Animation(0.2f, new TextureRegion(items, 64, 128, 32, 32), new TextureRegion(items, 96, 128, 32, 32));
 		playerHit = new TextureRegion(items, 128, 128, 32, 32);
 		enemyFly = new Animation(0.2f, new TextureRegion(items, 0, 160, 32, 32), new TextureRegion(items, 32, 160, 32, 32));
-
+		SquareBlock = new TextureRegion(items, 0, 188, 16, 16);
 		block = new TextureRegion(items, 64, 160, 64, 16);
 		brakingBlock = new Animation(0.2f, new TextureRegion(items, 64, 160, 64, 16), new TextureRegion(items, 64, 176, 64, 16),
 				new TextureRegion(items, 64, 192, 64, 16), new TextureRegion(items, 64, 208, 64, 16));
