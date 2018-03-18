@@ -83,12 +83,23 @@ public class WorldRenderer {
 		int len = world.squareBlocks.size();
 		for (int i = 0; i < len; i++) {
 			SquareBlock block = world.squareBlocks.get(i);
-			TextureRegion keyFrame = Assets.SquareBlock;
+			TextureRegion keyFrame;
+			if(block.lives==3){
+				keyFrame = Assets.SquareBlockR;
+			}
+			else
+			if(block.lives==2){
+				keyFrame = Assets.SquareBlockB;
+			}
+			else
+			{
+				keyFrame = Assets.SquareBlockG;
+			}
 			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING) {
 				keyFrame = Assets.brakingBlock.getKeyFrame(block.stateTime, Animation.ANIMATION_NONLOOPING);
 			}
 
-			batch.draw(keyFrame, block.position.x - 1, block.position.y - 0.25f, 0.5f, 0.5f);
+			batch.draw(keyFrame, block.position.x - 0.5f, block.position.y - 0.5f, 1f, 1f);
 		}
 	}
 

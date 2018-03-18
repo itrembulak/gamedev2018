@@ -65,13 +65,25 @@ public class World {
 		float y = Block.BLOCK_HEIGHT / 2;
 		float maxJumpHeight = Player.PLAYER_JUMP_VELOCITY * Player.PLAYER_JUMP_VELOCITY / (2 * -gravity.y);
 		while (y < WORLD_HEIGHT - WORLD_WIDTH / 2) {
-			int type = rand.nextFloat() > 0.8f ? Block.BLOCK_TYPE_MOVING : Block.BLOCK_TYPE_STATIC;
-			float x = rand.nextFloat() * (WORLD_WIDTH - Block.BLOCK_WIDTH) + Block.BLOCK_WIDTH / 2;
-
+			//int type = rand.nextFloat() > 0.8f ? Block.BLOCK_TYPE_MOVING : Block.BLOCK_TYPE_STATIC;
+			//float x = rand.nextFloat() * (WORLD_WIDTH - Block.BLOCK_WIDTH) + Block.BLOCK_WIDTH / 2;
+			int type = rand.nextFloat() > 0.8f ? SquareBlock.BLOCK_TYPE_MOVING : SquareBlock.BLOCK_TYPE_STATIC;
+			float x = rand.nextFloat() * (WORLD_WIDTH - SquareBlock.BLOCK_WIDTH) + SquareBlock.BLOCK_WIDTH / 2;
 			//Block block = new Block(type, x, y+20, 2);
 			//blocks.add(block);
-			SquareBlock block = new SquareBlock(type, x, y+20, 2);
-			squareBlocks.add(block);
+
+
+
+			float variant = rand.nextFloat();
+			SquareBlock block = new SquareBlock(type, x, y + 20, GenerateLives());
+			if(variant<0.8f) {
+				squareBlocks.add(block);
+
+			}
+			else {
+				GenerateRow(y);
+			}
+
 
 
 			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
@@ -143,8 +155,8 @@ public class World {
 			SquareBlock block = squareBlocks.get(i);
 			block.update(deltaTime);
 			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING && block.stateTime > SquareBlock.BLOCK_STATE_PULVERIZING) {
-				blocks.remove(block);
-				len = blocks.size();
+				squareBlocks.remove(block);
+				len = squareBlocks.size();
 			}
 		}
 	}
@@ -291,5 +303,29 @@ public class World {
 		if (heightSoFar - 7.5f > player.position.y) {
 			state = WORLD_STATE_GAME_OVER;
 		}
+	}
+
+	private  void GenerateRow(float y){
+
+		for (float i=0.5f;i<WORLD_WIDTH;i=i+1.5f) {
+			SquareBlock block = new SquareBlock(SquareBlock.BLOCK_TYPE_STATIC, i, y + 20, GenerateLives());
+			squareBlocks.add(block);
+		}
+
+	}
+	private int GenerateLives(){
+
+		int squareBlockLives;
+		float random = rand.nextFloat();
+		if(random>0.75f){
+			squareBlockLives = 3;
+		}
+		else if(random>0.4f && random<0.75f){
+			squareBlockLives = 2;
+		}
+		else
+			squareBlockLives = 1;
+
+		return squareBlockLives;
 	}
 }
