@@ -20,6 +20,7 @@ public class SquareBlock extends DynamicGameObject {
     float stateTime;
     int lives;
 
+
     public SquareBlock(int type, float x, float y, int lives) {
         super(x, y, BLOCK_WIDTH, BLOCK_HEIGHT);
         this.type = type;
@@ -54,6 +55,7 @@ public class SquareBlock extends DynamicGameObject {
         if (state != BLOCK_STATE_PULVERIZING){
             state = BLOCK_STATE_PULVERIZING;
             stateTime = 0;
+            Assets.playSound(Assets.pulverizeSound);
         }
         velocity.x = 0;
 

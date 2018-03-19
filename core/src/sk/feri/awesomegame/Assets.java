@@ -46,7 +46,6 @@ public class Assets {
 	//public static TextureRegion playerNormal;
 
 	public static Music music;
-	public static Sound jumpSound;
 	public static Sound highJumpSound;
 	public static Sound hitSound;
 	public static Sound coinSound;
@@ -54,6 +53,8 @@ public class Assets {
 	public static Sound projectileSound;
 	public static Sound clickSound;
 	public static Sound noAmmoSound;
+	public static Sound gameOverSound;
+	public static Sound pulverizeSound;
 
 	public static Texture loadTexture (String file) {
 		return new Texture(Gdx.files.internal(file));
@@ -106,16 +107,17 @@ public class Assets {
 
 		music = Gdx.audio.newMusic(Gdx.files.internal("data/music.mp3"));
 		music.setLooping(true);
-		music.setVolume(0.5f);
+		music.setVolume(0.4f);
 		if (Settings.soundEnabled) music.play();
-		jumpSound = Gdx.audio.newSound(Gdx.files.internal("data/jump.wav"));
 		highJumpSound = Gdx.audio.newSound(Gdx.files.internal("data/highjump.wav"));
-		hitSound = Gdx.audio.newSound(Gdx.files.internal("data/jump.wav"));
+		hitSound = Gdx.audio.newSound(Gdx.files.internal("data/hit.wav"));
 		coinSound = Gdx.audio.newSound(Gdx.files.internal("data/coin.wav"));
 		supplySound = Gdx.audio.newSound(Gdx.files.internal("data/highjump.wav"));
 		projectileSound = Gdx.audio.newSound(Gdx.files.internal("data/pow.mp3"));
 		clickSound = Gdx.audio.newSound(Gdx.files.internal("data/click.wav"));
 		noAmmoSound = Gdx.audio.newSound(Gdx.files.internal("data/no-ammo.wav"));
+		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("data/gameover.wav"));
+		pulverizeSound = Gdx.audio.newSound(Gdx.files.internal("data/pulverize.wav"));
 	}
 
 	public static void playSound (Sound sound) {

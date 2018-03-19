@@ -49,11 +49,6 @@ public class GameScreen extends ScreenAdapter {
 			}
 
 			@Override
-			public void highJump () {
-				Assets.playSound(Assets.highJumpSound);
-			}
-
-			@Override
 			public void hit () {
 				Assets.playSound(Assets.hitSound);
 			}
@@ -72,6 +67,7 @@ public class GameScreen extends ScreenAdapter {
 			public void supply () {
 				Assets.playSound(Assets.supplySound);
 			}
+
 		};
 		world = new World(worldListener);
 		renderer = new WorldRenderer(game.batcher, world);
@@ -149,6 +145,7 @@ public class GameScreen extends ScreenAdapter {
 				scoreString = "SCORE: " + lastScore;
 			Settings.addScore(lastScore);
 			Settings.save();
+			Assets.playSound(Assets.gameOverSound);
 		}
 	}
 

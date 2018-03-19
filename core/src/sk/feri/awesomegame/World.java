@@ -11,8 +11,6 @@ public class World {
 	public interface WorldListener {
 		public void noAmmo();
 
-		public void highJump();
-
 		public void hit();
 
 		public void coin();
@@ -173,7 +171,7 @@ public class World {
 		if (Gdx.input.justTouched()) {
 			if (player.getProjectile_count() != 0) {
 				listener.shoot();
-				Projectile projectile = new Projectile(player.position.x , player.position.y);
+				Projectile projectile = new Projectile(player.position.x, player.position.y);
 				projectiles.add(projectile);
 				player.projectileShot();
 			}else {
@@ -223,7 +221,6 @@ public class World {
 			Block block = blocks.get(i);
 			if (block.bounds.overlaps(player.bounds) && block.state != Block.BLOCK_STATE_PULVERIZING) {
 				player.hitBlock();
-				listener.hit();
 			}
 			for (int j = 0; j < len_proj; j++) {
 				Projectile projectile = projectiles.get(j);
@@ -243,7 +240,6 @@ public class World {
 			SquareBlock block = squareBlocks.get(i);
 			if (block.bounds.overlaps(player.bounds) && block.state != SquareBlock.BLOCK_STATE_PULVERIZING) {
 				player.hitBlock();
-				listener.hit();
 			}
 			for (int j = 0; j < len_proj; j++) {
 				Projectile projectile = projectiles.get(j);

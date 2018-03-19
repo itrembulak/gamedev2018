@@ -17,6 +17,7 @@ public class Projectile extends DynamicGameObject {
 	int state;
 	float fired_y;
 
+
 	public Projectile(float x, float y) {
 		super(x, y, PROJCTILE_WIDTH, PROJCTILE_HEIGHT);
 		velocity.set(PROJCTILE_VELOCITY, 0);
