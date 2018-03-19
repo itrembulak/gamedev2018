@@ -6,8 +6,8 @@ package sk.feri.awesomegame;
 
 public class SquareBlock extends DynamicGameObject {
 
-    public static final float BLOCK_WIDTH = 1f;
-    public static final float BLOCK_HEIGHT = 1f;
+    public static final float BLOCK_WIDTH = 1.4f;
+    public static final float BLOCK_HEIGHT = 1.4f;
     public static final int BLOCK_TYPE_STATIC = 0;
     public static final int BLOCK_TYPE_MOVING = 1;
     public static final int BLOCK_STATE_NORMAL = 0;

@@ -173,7 +173,7 @@ public class World {
 		if (Gdx.input.justTouched()) {
 			if (player.getProjectile_count() != 0) {
 				listener.shoot();
-				Projectile projectile = new Projectile(player.position.x - Player.PLAYER_WIDTH , player.position.y);
+				Projectile projectile = new Projectile(player.position.x , player.position.y);
 				projectiles.add(projectile);
 				player.projectileShot();
 			}else {
@@ -307,7 +307,7 @@ public class World {
 
 	private  void GenerateRow(float y){
 
-		for (float i=0.5f;i<WORLD_WIDTH;i=i+1.5f) {
+		for (float i=0.5f;i<WORLD_WIDTH;i=i+ SquareBlock.BLOCK_WIDTH + 0.4f) {
 			SquareBlock block = new SquareBlock(SquareBlock.BLOCK_TYPE_STATIC, i, y + 20, GenerateLives());
 			squareBlocks.add(block);
 		}

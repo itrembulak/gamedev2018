@@ -51,6 +51,7 @@ public class WorldRenderer {
 		TextureRegion keyFrame;
 		switch (world.player.state) {
 		case Player.PLAYER_STATE_NORMAL:
+			//keyFrame = Assets.playerNormal;
 			keyFrame = Assets.playerNormal.getKeyFrame(world.player.stateTime, Animation.ANIMATION_LOOPING);
 			break;
 		case Player.PLAYER_STATE_HIT:
@@ -96,10 +97,10 @@ public class WorldRenderer {
 				keyFrame = Assets.SquareBlockG;
 			}
 			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING) {
-				keyFrame = Assets.brakingBlock.getKeyFrame(block.stateTime, Animation.ANIMATION_NONLOOPING);
+				keyFrame = Assets.breakingSquareBlock.getKeyFrame(block.stateTime, Animation.ANIMATION_NONLOOPING);
 			}
 
-			batch.draw(keyFrame, block.position.x - 0.5f, block.position.y - 0.5f, 1f, 1f);
+			batch.draw(keyFrame, block.position.x - 0.7f, block.position.y - 0.7f, 1.4f, 1.4f);
 		}
 	}
 
@@ -140,12 +141,12 @@ public class WorldRenderer {
 		int len = world.projectiles.size();
 		for (int i = 0; i < len; i++) {
 			Projectile projectile = world.projectiles.get(i);
-			TextureRegion keyFrame = Assets.enemyFly.getKeyFrame(projectile.stateTime, Animation.ANIMATION_LOOPING);
+			TextureRegion keyFrame = Assets.projectileAnim.getKeyFrame(projectile.stateTime, Animation.ANIMATION_LOOPING);
 			float side = projectile.velocity.x < 0 ? -1 : 1;
 			if (side < 0)
-				batch.draw(keyFrame, projectile.position.x + 0.5f, projectile.position.y - 0.5f, side * 1, 1);
+				batch.draw(keyFrame, projectile.position.x + 0.4f, projectile.position.y - 0.2f, side * 0.4f, 0.8f);
 			else
-				batch.draw(keyFrame, projectile.position.x - 0.5f, projectile.position.y - 0.5f, side * 1, 1);
+				batch.draw(keyFrame, projectile.position.x - 0.4f, projectile.position.y - 0.2f, side * 0.4f, 0.8f);
 		}
 	}
 }

@@ -5,8 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 public class Projectile extends DynamicGameObject {
-	public static final float PROJCTILE_WIDTH = 1;
-	public static final float PROJCTILE_HEIGHT = 0.6f;
+	public static final float PROJCTILE_WIDTH = 0.4f;
+	public static final float PROJCTILE_HEIGHT = 0.8f;
 	public static final float PROJCTILE_VELOCITY = 3f;
 	public static final float PROJCTILE_RANGE = 17f;
 	public static final int PROJECTILE_STATE_FIRED = 0;
