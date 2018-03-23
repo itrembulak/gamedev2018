@@ -24,7 +24,11 @@ public class MainMenuScreen extends ScreenAdapter {
 		soundBounds = new Rectangle(0, 0, 64, 64);
 		playBounds = new Rectangle(160 - 150, 200 + 18, 300, 36);
 		highscoresBounds = new Rectangle(160 - 150, 200 - 18, 300, 36);
-		helpBounds = new Rectangle(160 - 150, 200 - 18 - 36, 300, 36);
+
+		// TODO: Help tlacitko neklikaj :D
+		//helpBounds = new Rectangle(160 - 150, 200 - 18 - 36, 300, 36);
+
+		helpBounds = new Rectangle();
 		touchPoint = new Vector3();
 	}
 

@@ -61,16 +61,11 @@ public class World {
 
 	private void generateLevel () {
 		float y = Block.BLOCK_HEIGHT / 2;
-		float maxJumpHeight = Player.PLAYER_JUMP_VELOCITY * Player.PLAYER_JUMP_VELOCITY / (2 * -gravity.y);
+		float minBlockSpacing = 5f;
 		while (y < WORLD_HEIGHT - WORLD_WIDTH / 2) {
-			//int type = rand.nextFloat() > 0.8f ? Block.BLOCK_TYPE_MOVING : Block.BLOCK_TYPE_STATIC;
-			//float x = rand.nextFloat() * (WORLD_WIDTH - Block.BLOCK_WIDTH) + Block.BLOCK_WIDTH / 2;
+
 			int type = rand.nextFloat() > 0.8f ? SquareBlock.BLOCK_TYPE_MOVING : SquareBlock.BLOCK_TYPE_STATIC;
 			float x = rand.nextFloat() * (WORLD_WIDTH - SquareBlock.BLOCK_WIDTH) + SquareBlock.BLOCK_WIDTH / 2;
-			//Block block = new Block(type, x, y+20, 2);
-			//blocks.add(block);
-
-
 
 			float variant = rand.nextFloat();
 			SquareBlock block = new SquareBlock(type, x, y + 20, GenerateLives());
@@ -108,8 +103,8 @@ public class World {
                 supplies.add(supply);
             }
 
-			y += (maxJumpHeight - 0.5f);
-			y -= rand.nextFloat() * (maxJumpHeight / 3);
+			y += (minBlockSpacing - 0.5f);
+			y -= rand.nextFloat() * (minBlockSpacing / 3);
 		}
 
 		castle = new Castle(WORLD_WIDTH / 2, y);
