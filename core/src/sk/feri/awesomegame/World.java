@@ -39,6 +39,7 @@ public class World {
 	public final Random rand;
 
 	public float heightSoFar;
+    public float heightOfWorld;
 	public int score;
 	public int state;
 
@@ -52,20 +53,22 @@ public class World {
 		this.squareBlocks = new ArrayList<SquareBlock>();
 		this.listener = listener;
 		rand = new Random();
-		generateLevel();
+		generateLevel(0);
 
 		this.heightSoFar = 0;
+		this.heightOfWorld = WORLD_HEIGHT;
 		this.score = 0;
 		this.state = WORLD_STATE_RUNNING;
 	}
 
-	private void generateLevel () {
-		float y = Block.BLOCK_HEIGHT / 2;
+	private void generateLevel (float initial) {
+		float y = initial +Block.BLOCK_HEIGHT / 2;
 		float minBlockSpacing = 5f;
-		while (y < WORLD_HEIGHT - WORLD_WIDTH / 2) {
+		while (y < (WORLD_HEIGHT+ initial) ) {
 
 			int type = rand.nextFloat() > 0.8f ? SquareBlock.BLOCK_TYPE_MOVING : SquareBlock.BLOCK_TYPE_STATIC;
 			float x = rand.nextFloat() * (WORLD_WIDTH - SquareBlock.BLOCK_WIDTH) + SquareBlock.BLOCK_WIDTH / 2;
+
 
 			float variant = rand.nextFloat();
 			SquareBlock block = new SquareBlock(type, x, y + 20, GenerateLives());
@@ -106,8 +109,8 @@ public class World {
 			y += (minBlockSpacing - 0.5f);
 			y -= rand.nextFloat() * (minBlockSpacing / 3);
 		}
-
-		castle = new Castle(WORLD_WIDTH / 2, y);
+        heightOfWorld = initial + WORLD_HEIGHT;
+		//castle = new Castle(WORLD_WIDTH / 2, y);
 	}
 
 	public void update (float deltaTime, float accelX) {
@@ -120,6 +123,9 @@ public class World {
 		updateSquareBlocks(deltaTime);
 		if (player.state != Player.PLAYER_STATE_HIT) checkCollisions();
 		checkGameOver();
+		if(heightSoFar>heightOfWorld - 20){
+            generateLevel(heightOfWorld);
+        }
 	}
 
 
@@ -147,11 +153,18 @@ public class World {
 		for (int i = 0; i < len; i++) {
 			SquareBlock block = squareBlocks.get(i);
 			block.update(deltaTime);
-			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING && block.stateTime > SquareBlock.BLOCK_STATE_PULVERIZING) {
+			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING && block.stateTime > SquareBlock.BLOCK_STATE_PULVERIZING -0.6) {
 				squareBlocks.remove(block);
 				len = squareBlocks.size();
 			}
+
 		}
+		for (int i = 0; i < squareBlocks.size(); i++) {
+			SquareBlock block = squareBlocks.get(i);
+			if (block.position.y + 10 < heightSoFar)
+				squareBlocks.remove(block);
+		}
+
 	}
 
 	private void updateEnemies (float deltaTime) {
@@ -159,6 +172,11 @@ public class World {
 		for (int i = 0; i < len; i++) {
 			Enemy enemy = enemies.get(i);
 			enemy.update(deltaTime);
+		}
+		for (int i = 0; i <enemies.size(); i++) {
+			Enemy enemy = enemies.get(i);
+			if (enemy.position.y + 10 < heightSoFar)
+				enemies.remove(enemy);
 		}
 	}
 
@@ -190,6 +208,11 @@ public class World {
 			Coin coin = coins.get(i);
 			coin.update(deltaTime);
 		}
+		for (int i = 0; i < coins.size(); i++) {
+			Coin coin = coins.get(i);
+			if (coin.position.y + 10 < heightSoFar)
+				coins.remove(coin);
+		}
 	}
     private void updateSupplies (float deltaTime) {
         int len = supplies.size();
@@ -197,13 +220,18 @@ public class World {
             Supply supply = supplies.get(i);
             supply.update(deltaTime);
         }
+		for (int i = 0; i < supplies.size(); i++) {
+			Supply suply = supplies.get(i);
+			if (suply.position.y + 10 < heightSoFar)
+				supplies.remove(suply);
+		}
     }
 
 
     private void checkCollisions () {
 		checkEnemiesCollisions();
 		checkItemCollisions();
-		checkCastleCollisions();
+	//	checkCastleCollisions();
 		checkBlockCollisions();
 		checkSquareBlockCollisions();
 	}

@@ -40,7 +40,7 @@ public class WorldRenderer {
 		renderPlayer();
 		renderItems();
 		renderEnemies();
-		renderCastle();
+		//renderCastle();
 		renderProjectiles();
 		renderBlocks();
 		renderSquareBlocks();

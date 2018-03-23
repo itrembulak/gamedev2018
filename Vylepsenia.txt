@@ -1,7 +1,7 @@
-zrychlit animaciu nicenia blockov
+﻿zrychlit animaciu nicenia blockov				DONE
 pridat obtiaznosti na vyber
 aby sa animacia hraca neotacala zrkadlovo na mieste
-zmenit svet na nekonecny
+zmenit svet na nekonecny					DONE
 high score
 pridat help screen
 prejdena vzdialenosť pripocitať ku score
