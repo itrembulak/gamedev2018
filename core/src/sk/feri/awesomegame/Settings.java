@@ -19,13 +19,7 @@ public class Settings {
 				highscores[i] = Integer.parseInt(strings[i+1]);
 			}
 		} catch (Throwable e) {
-
-			//TODO: zisti
-			/*03-20 12:15:34.055 21368-21399/sk.feri.awesomegame.android I/XXXX: com.badlogic.gdx.utils.GdxRuntimeException: Error reading file: .awesomegame (External)
-			03-20 12:15:47.540 21368-21399/sk.feri.awesomegame.android I/XXXXZ: com.badlogic.gdx.utils.GdxRuntimeException: Error writing file: .awesomegame (External)
-			*/
-			Gdx.app.log("XXXX", ""+e);
-			// Defaults applied
+			Gdx.app.log("SETTINGS", ""+e);
 		}
 	}
 
@@ -38,7 +32,7 @@ public class Settings {
 				filehandle.writeString(Integer.toString(highscores[i])+"\n", true);
 			}
 		} catch (Throwable e) {
-			Gdx.app.log("XXXXZ", ""+e);
+			Gdx.app.log("SETTINGS", ""+e);
 		}
 	}
 
