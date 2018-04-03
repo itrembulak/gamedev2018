@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import sk.feri.awesomegame.World.WorldListener;
+import sun.rmi.runtime.Log;
 
 public class GameScreen extends ScreenAdapter {
 	static final int GAME_READY = 0;
@@ -32,6 +33,7 @@ public class GameScreen extends ScreenAdapter {
 	int lastScore;
 	String scoreString;
 	String bulletsString;
+	boolean gameOverSleep;
 
 	GlyphLayout glyphLayout = new GlyphLayout();
 
@@ -77,6 +79,7 @@ public class GameScreen extends ScreenAdapter {
 		lastScore = 0;
 		scoreString = "SCORE: 0";
 		bulletsString = "BULLETS: " + world.player.getProjectileCount();
+		gameOverSleep = false;
 	}
 
 	public void update (float deltaTime) {
@@ -205,7 +208,6 @@ public class GameScreen extends ScreenAdapter {
 			presentPaused();
 			break;
 		case GAME_LEVEL_END:
-			presentLevelEnd();
 			break;
 		case GAME_OVER:
 			presentGameOver();
@@ -229,17 +231,18 @@ public class GameScreen extends ScreenAdapter {
 		Assets.font.draw(game.batcher, scoreString, 16, 480 - 20);
 	}
 
-	private void presentLevelEnd () {
-		glyphLayout.setText(Assets.font, "the princess is ...");
-		Assets.font.draw(game.batcher, glyphLayout, 160 - glyphLayout.width / 2, 480 - 40);
-		glyphLayout.setText(Assets.font, "in another castle!");
-		Assets.font.draw(game.batcher, glyphLayout, 160 - glyphLayout.width / 2, 40);
-	}
-
 	private void presentGameOver () {
 		game.batcher.draw(Assets.gameOver, 160 - 160 / 2, 240 - 96 / 2, 160, 96);
 		glyphLayout.setText(Assets.font, scoreString);
 		Assets.font.draw(game.batcher, scoreString, 160 - glyphLayout.width / 2, 480 - 20);
+		if (!gameOverSleep){
+			try {
+				Thread.sleep(700);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			gameOverSleep = true;
+		}
 	}
 
 	@Override
