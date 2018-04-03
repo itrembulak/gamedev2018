@@ -76,7 +76,7 @@ public class GameScreen extends ScreenAdapter {
 		quitBounds = new Rectangle(160 - 96, 240 - 36, 192, 36);
 		lastScore = 0;
 		scoreString = "SCORE: 0";
-		bulletsString = "Bullets: " + world.player.getProjectile_count();
+		bulletsString = "BULLETS: " + world.player.getProjectileCount();
 	}
 
 	public void update (float deltaTime) {
@@ -133,7 +133,7 @@ public class GameScreen extends ScreenAdapter {
 			lastScore = world.score;
 			scoreString = "SCORE: " + lastScore;
 		}
-		bulletsString = "BULLETS: " + world.player.getProjectile_count();
+		bulletsString = "BULLETS: " + world.player.getProjectileCount();
 		if (world.state == World.WORLD_STATE_NEXT_LEVEL) {
 			game.setScreen(new WinScreen(game));
 		}
@@ -144,6 +144,8 @@ public class GameScreen extends ScreenAdapter {
 			else
 				scoreString = "SCORE: " + lastScore;
 			Settings.addScore(lastScore);
+			Settings.addAtenpt();
+			Settings.addDistance(world.distanceTravelled);
 			Settings.save();
 			Assets.playSound(Assets.gameOverSound);
 		}

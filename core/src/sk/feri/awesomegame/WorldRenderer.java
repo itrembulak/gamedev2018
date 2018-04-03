@@ -40,7 +40,6 @@ public class WorldRenderer {
 		renderPlayer();
 		renderItems();
 		renderEnemies();
-		//renderCastle();
 		renderProjectiles();
 		renderBlocks();
 		renderSquareBlocks();
@@ -132,10 +131,6 @@ public class WorldRenderer {
 		}
 	}
 
-	private void renderCastle () {
-		Castle castle = world.castle;
-		batch.draw(Assets.castle, castle.position.x - 1, castle.position.y - 1, 2, 2);
-	}
 
 	public void renderProjectiles() {
 		int len = world.projectiles.size();

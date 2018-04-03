@@ -24,7 +24,6 @@ public class Assets {
 	public static TextureRegion arrow;
 	public static TextureRegion pause;
 	public static TextureRegion supply;
-	public static TextureRegion castle;
 	public static Animation coinAnim;
 
 
@@ -77,7 +76,6 @@ public class Assets {
 		pause = new TextureRegion(items, 64, 64, 64, 64);
 
 
-		castle = new TextureRegion(items, 128, 64, 64, 64);
 		coinAnim = new Animation(0.2f, new TextureRegion(items, 128, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32),
 			new TextureRegion(items, 192, 32, 32, 32), new TextureRegion(items, 160, 32, 32, 32));
 

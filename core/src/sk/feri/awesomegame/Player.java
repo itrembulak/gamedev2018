@@ -56,7 +56,7 @@ package sk.feri.awesomegame;
 		projectile_count --;
 	}
 
-	 public int getProjectile_count() {
+	 public int getProjectileCount() {
 		 return projectile_count;
 	 }
  }

@@ -34,7 +34,6 @@ public class World {
     public final List<Supply> supplies;
 	public final List<Block> blocks;
 	public final List<SquareBlock> squareBlocks;
-	public Castle castle;
 	public final WorldListener listener;
 	public final Random rand;
 
@@ -42,6 +41,7 @@ public class World {
     public float heightOfWorld;
 	public int score;
 	public int state;
+	public int scoreLastHeight, distanceTravelled;
 
 	public World (WorldListener listener) {
 		this.player = new Player(5, 1);
@@ -59,6 +59,8 @@ public class World {
 		this.heightOfWorld = WORLD_HEIGHT;
 		this.score = 0;
 		this.state = WORLD_STATE_RUNNING;
+		this.scoreLastHeight = 0;
+		this.distanceTravelled = 0;
 	}
 
 	private void generateLevel (float initial) {
@@ -110,22 +112,31 @@ public class World {
 			y -= rand.nextFloat() * (minBlockSpacing / 3);
 		}
         heightOfWorld = initial + WORLD_HEIGHT;
-		//castle = new Castle(WORLD_WIDTH / 2, y);
+
 	}
 
 	public void update (float deltaTime, float accelX) {
 		updatePlayer(deltaTime, accelX);
+		updateScore();
 		updateEnemies(deltaTime);
 		updateCoins(deltaTime);
 		updateProjectiles(deltaTime);
         updateSupplies(deltaTime);
 		updateBlocks(deltaTime);
 		updateSquareBlocks(deltaTime);
-		if (player.state != Player.PLAYER_STATE_HIT) checkCollisions();
-		checkGameOver();
+		if (player.state != Player.PLAYER_STATE_HIT)
+			checkCollisions();
 		if(heightSoFar>heightOfWorld - 20){
             generateLevel(heightOfWorld);
         }
+	}
+
+	private void updateScore() {
+		if (Math.round(heightSoFar) > scoreLastHeight +2){ // +2 -> slow down score incrementing
+			score += 1;
+			distanceTravelled += 1;
+			scoreLastHeight = Math.round(heightSoFar);
+		}
 	}
 
 
@@ -182,11 +193,12 @@ public class World {
 
 	private void updateProjectiles(float deltaTime) {
 		if (Gdx.input.justTouched()) {
-			if (player.getProjectile_count() != 0) {
+			if (player.getProjectileCount() != 0) {
 				listener.shoot();
 				Projectile projectile = new Projectile(player.position.x, player.position.y);
 				projectiles.add(projectile);
 				player.projectileShot();
+				Settings.addShot();
 			}else {
 				listener.noAmmo();
 			}
@@ -231,7 +243,6 @@ public class World {
     private void checkCollisions () {
 		checkEnemiesCollisions();
 		checkItemCollisions();
-	//	checkCastleCollisions();
 		checkBlockCollisions();
 		checkSquareBlockCollisions();
 	}
@@ -310,18 +321,6 @@ public class World {
 			}
 		}
 
-	}
-
-	private void checkCastleCollisions () {
-		if (castle.bounds.overlaps(player.bounds)) {
-			state = WORLD_STATE_NEXT_LEVEL;
-		}
-	}
-
-	private void checkGameOver () {
-		if (heightSoFar - 7.5f > player.position.y) {
-			state = WORLD_STATE_GAME_OVER;
-		}
 	}
 
 	private  void GenerateRow(float y){
