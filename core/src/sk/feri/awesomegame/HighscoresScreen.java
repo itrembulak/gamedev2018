@@ -16,6 +16,7 @@ public class HighscoresScreen extends ScreenAdapter {
 	String[] highScores;
 	float xOffset = 0;
 	GlyphLayout glyphLayout = new GlyphLayout();
+	String attemptsString, shotsString, distanceString;
 
 	public HighscoresScreen (AwesomeGame game) {
 		this.game = game;
@@ -26,11 +27,15 @@ public class HighscoresScreen extends ScreenAdapter {
 		touchPoint = new Vector3();
 		highScores = new String[5];
 		for (int i = 0; i < 5; i++) {
-			highScores[i] = i + 1 + ". " + Settings.highscores[i];
+			highScores[i] = i + 1 + ". " + Settings.highscores[Settings.difficulty -1 ][i];
 			glyphLayout.setText(Assets.font, highScores[i]);
 			xOffset = Math.max(glyphLayout.width, xOffset);
 		}
 		xOffset = 160 - xOffset / 2 + Assets.font.getSpaceWidth() / 2;
+
+		attemptsString = "GAMES PLAYED: " + Settings.attempts;
+		shotsString = "NO. SHOTS: " + Settings.shots;
+		distanceString = "DISTNCE: " + Settings.distance + " cm";
 	}
 
 	public void update () {
@@ -65,6 +70,10 @@ public class HighscoresScreen extends ScreenAdapter {
 			Assets.font.draw(game.batcher, highScores[i], xOffset, y);
 			y += Assets.font.getLineHeight();
 		}
+
+		Assets.font.draw(game.batcher, attemptsString, 10, 170);
+		Assets.font.draw(game.batcher, shotsString, 10, 150);
+		Assets.font.draw(game.batcher, distanceString, 10, 130);
 
 		game.batcher.draw(Assets.arrow, 0, 0, 64, 64);
 		game.batcher.end();

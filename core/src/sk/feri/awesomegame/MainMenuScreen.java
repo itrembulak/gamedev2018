@@ -10,11 +10,12 @@ import com.badlogic.gdx.math.Vector3;
 public class MainMenuScreen extends ScreenAdapter {
 	AwesomeGame game;
 	OrthographicCamera guiCam;
-	Rectangle soundBounds;
+	Rectangle soundBounds, lowBounds, mediumBounds, heighBounds;
 	Rectangle playBounds;
 	Rectangle highscoresBounds;
 	Rectangle helpBounds;
 	Vector3 touchPoint;
+	String difficultyString;
 
 	public MainMenuScreen (AwesomeGame game) {
 		this.game = game;
@@ -22,10 +23,18 @@ public class MainMenuScreen extends ScreenAdapter {
 		guiCam = new OrthographicCamera(320, 480);
 		guiCam.position.set(320 / 2, 480 / 2, 0);
 		soundBounds = new Rectangle(0, 0, 64, 64);
+		lowBounds = new Rectangle(200, 10, 30, 30);
+		mediumBounds = new Rectangle(240, 10, 30, 30);
+		heighBounds = new Rectangle(280, 10, 30, 30);
 		playBounds = new Rectangle(160 - 150, 200 + 18, 300, 36);
 		highscoresBounds = new Rectangle(160 - 150, 200 - 18, 300, 36);
-		helpBounds = new Rectangle(160 - 150, 200 - 18 - 36, 300, 36);
+
+		// TODO: Help tlacitko neklikaj :D
+		//helpBounds = new Rectangle(160 - 150, 200 - 18 - 36, 300, 36);
+
+		helpBounds = new Rectangle();
 		touchPoint = new Vector3();
+		difficultyString = "DIFFICULTY: " + Settings.difficulty;
 	}
 
 	public void update () {
@@ -55,6 +64,24 @@ public class MainMenuScreen extends ScreenAdapter {
 				else
 					Assets.music.pause();
 			}
+			if (lowBounds.contains(touchPoint.x, touchPoint.y)) {
+				Assets.playSound(Assets.clickSound);
+				Settings.setDifficulty(1);
+				Settings.save();
+				difficultyString = "DIFFICULTY: " + Settings.difficulty;
+			}
+			if (mediumBounds.contains(touchPoint.x, touchPoint.y)) {
+				Assets.playSound(Assets.clickSound);
+				Settings.setDifficulty(2);
+				Settings.save();
+				difficultyString = "DIFFICULTY: " + Settings.difficulty;
+			}
+			if (heighBounds.contains(touchPoint.x, touchPoint.y)) {
+				Assets.playSound(Assets.clickSound);
+				Settings.setDifficulty(3);
+				Settings.save();
+				difficultyString = "DIFFICULTY: " + Settings.difficulty;
+			}
 		}
 	}
 
@@ -75,6 +102,12 @@ public class MainMenuScreen extends ScreenAdapter {
 		game.batcher.draw(Assets.logo, 160 - 274 / 2, 480 - 10 - 142, 274, 142);
 		game.batcher.draw(Assets.mainMenu, 10, 200 - 110 / 2, 300, 110);
 		game.batcher.draw(Settings.soundEnabled ? Assets.soundOn : Assets.soundOff, 0, 0, 64, 64);
+
+		Assets.font.draw(game.batcher, difficultyString, 90, 60);
+		game.batcher.draw(Assets.SquareBlockG, 200, 10, 30, 30);
+		game.batcher.draw(Assets.SquareBlockB, 240, 10, 30, 30);
+		game.batcher.draw(Assets.SquareBlockR, 280, 10, 30, 30);
+
 		game.batcher.end();	
 	}
 

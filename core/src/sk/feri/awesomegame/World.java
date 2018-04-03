@@ -11,8 +11,6 @@ public class World {
 	public interface WorldListener {
 		public void noAmmo();
 
-		public void highJump();
-
 		public void hit();
 
 		public void coin();
@@ -27,6 +25,7 @@ public class World {
 	public static final int WORLD_STATE_RUNNING = 0;
 	public static final int WORLD_STATE_NEXT_LEVEL = 1;
 	public static final int WORLD_STATE_GAME_OVER = 2;
+
 	public static final Vector2 gravity = new Vector2(0, -12);
 
 	public final Player player;
@@ -35,13 +34,19 @@ public class World {
 	public final List<Coin> coins;
     public final List<Supply> supplies;
 	public final List<Block> blocks;
-	public Castle castle;
+	public final List<SquareBlock> squareBlocks;
 	public final WorldListener listener;
 	public final Random rand;
 
 	public float heightSoFar;
+    public float heightOfWorld;
 	public int score;
 	public int state;
+	public int scoreLastHeight, distanceTravelled;
+
+	public float enemyDensity;
+	public float coinDensity;
+	public float supplyDensity;
 
 	public World (WorldListener listener) {
 		this.player = new Player(5, 1);
@@ -50,66 +55,114 @@ public class World {
 		this.coins = new ArrayList<Coin>();
         this.supplies = new ArrayList<Supply>();
 		this.blocks = new ArrayList<Block>();
+		this.squareBlocks = new ArrayList<SquareBlock>();
 		this.listener = listener;
+		setDifficultyParams();
 		rand = new Random();
-		generateLevel();
+		generateLevel(0);
 
 		this.heightSoFar = 0;
+		this.heightOfWorld = WORLD_HEIGHT;
 		this.score = 0;
 		this.state = WORLD_STATE_RUNNING;
+		this.scoreLastHeight = 0;
+		this.distanceTravelled = 0;
 	}
 
-	private void generateLevel () {
-		float y = Block.BLOCK_HEIGHT / 2;
-		float maxJumpHeight = Player.PLAYER_JUMP_VELOCITY * Player.PLAYER_JUMP_VELOCITY / (2 * -gravity.y);
-		while (y < WORLD_HEIGHT - WORLD_WIDTH / 2) {
-			int type = rand.nextFloat() > 0.8f ? Block.BLOCK_TYPE_MOVING : Block.BLOCK_TYPE_STATIC;
-			float x = rand.nextFloat() * (WORLD_WIDTH - Block.BLOCK_WIDTH) + Block.BLOCK_WIDTH / 2;
+	private void setDifficultyParams() {
+		switch (Settings.difficulty){
+			default: case 1:
+				Player.setPlayerMoveUpVelocity(5);
+				player.setProjectilesCount(10);
+				enemyDensity = 0.7f;
+				coinDensity = 0.6f;
+				supplyDensity = 0.15f;
+				break;
+			case 2:
+				Player.setPlayerMoveUpVelocity(5.5f);
+				player.setProjectilesCount(7);
+				enemyDensity = 0.8f;
+				coinDensity = 0.5f;
+				supplyDensity = 0.2f;
+				break;
+			case 3:
+				Player.setPlayerMoveUpVelocity(6f);
+				player.setProjectilesCount(5);
+				enemyDensity = 0.85f;
+				coinDensity = 0.4f;
+				supplyDensity = 0.25f;
+				break;
+		}
+	}
 
-			Block block = new Block(type, x, y+20, 2);
-			blocks.add(block);
+	private void generateLevel (float initial) {
+		float y = initial +Block.BLOCK_HEIGHT / 2;
+		float minBlockSpacing = 5f;
+		while (y < (WORLD_HEIGHT+ initial) ) {
+
+			int type = rand.nextFloat() > 0.8f ? SquareBlock.BLOCK_TYPE_MOVING : SquareBlock.BLOCK_TYPE_STATIC;
+			float x = rand.nextFloat() * (WORLD_WIDTH - SquareBlock.BLOCK_WIDTH) + SquareBlock.BLOCK_WIDTH / 2;
 
 
-			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
+			float variant = rand.nextFloat();
+			SquareBlock block = new SquareBlock(type, x, y + 20, GenerateLives());
+			if(variant<0.8f) {
+				squareBlocks.add(block);
+
+			}
+			else {
+				GenerateRow(y);
+			}
+
+
+
+			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > enemyDensity) {
 				Enemy enemy = new Enemy(block.position.x + rand.nextFloat(), block.position.y
 					+ Enemy.ENEMY_HEIGHT + rand.nextFloat() * 2);
 				enemies.add(enemy);
 			}
 
-			if (rand.nextFloat() > 0.6f) {
-				Coin coin = new Coin(block.position.x + rand.nextFloat(), block.position.y + Coin.COIN_HEIGHT
-					+ rand.nextFloat() * 3);
-				coins.add(coin);
-			}
-
-            if (rand.nextFloat() > 0.6f) {
+            if (rand.nextFloat() > coinDensity) {
                 Coin coin = new Coin(block.position.x + rand.nextFloat(), block.position.y + Coin.COIN_HEIGHT
                         + rand.nextFloat() * 3);
                 coins.add(coin);
             }
 
-            if (rand.nextFloat() > 0.1f) {
+            if (rand.nextFloat() > supplyDensity) {
                 Supply supply = new Supply(block.position.x + rand.nextFloat(), block.position.y + Supply.SUPPLY_HEIGHT
                         + rand.nextFloat() * 3, 3);
                 supplies.add(supply);
             }
 
-			y += (maxJumpHeight - 0.5f);
-			y -= rand.nextFloat() * (maxJumpHeight / 3);
+			y += (minBlockSpacing - 0.5f);
+			y -= rand.nextFloat() * (minBlockSpacing / 3);
 		}
+        heightOfWorld = initial + WORLD_HEIGHT;
 
-		castle = new Castle(WORLD_WIDTH / 2, y);
 	}
 
 	public void update (float deltaTime, float accelX) {
 		updatePlayer(deltaTime, accelX);
+		updateScore();
 		updateEnemies(deltaTime);
 		updateCoins(deltaTime);
 		updateProjectiles(deltaTime);
         updateSupplies(deltaTime);
 		updateBlocks(deltaTime);
-		if (player.state != Player.PLAYER_STATE_HIT) checkCollisions();
-		checkGameOver();
+		updateSquareBlocks(deltaTime);
+		if (player.state != Player.PLAYER_STATE_HIT)
+			checkCollisions();
+		if(heightSoFar>heightOfWorld - 20){
+            generateLevel(heightOfWorld);
+        }
+	}
+
+	private void updateScore() {
+		if (Math.round(heightSoFar) > scoreLastHeight +2){ // +2 -> slow down score incrementing
+			score += 1;
+			distanceTravelled += 1;
+			scoreLastHeight = Math.round(heightSoFar);
+		}
 	}
 
 
@@ -132,21 +185,46 @@ public class World {
 		}
 	}
 
+	private void updateSquareBlocks (float deltaTime) {
+		int len = squareBlocks.size();
+		for (int i = 0; i < len; i++) {
+			SquareBlock block = squareBlocks.get(i);
+			block.update(deltaTime);
+			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING && block.stateTime > SquareBlock.BLOCK_STATE_PULVERIZING -0.6) {
+				squareBlocks.remove(block);
+				len = squareBlocks.size();
+			}
+
+		}
+		for (int i = 0; i < squareBlocks.size(); i++) {
+			SquareBlock block = squareBlocks.get(i);
+			if (block.position.y + 10 < heightSoFar)
+				squareBlocks.remove(block);
+		}
+
+	}
+
 	private void updateEnemies (float deltaTime) {
 		int len = enemies.size();
 		for (int i = 0; i < len; i++) {
 			Enemy enemy = enemies.get(i);
 			enemy.update(deltaTime);
 		}
+		for (int i = 0; i <enemies.size(); i++) {
+			Enemy enemy = enemies.get(i);
+			if (enemy.position.y + 10 < heightSoFar)
+				enemies.remove(enemy);
+		}
 	}
 
 	private void updateProjectiles(float deltaTime) {
 		if (Gdx.input.justTouched()) {
-			if (player.getProjectile_count() != 0) {
+			if (player.getProjectileCount() != 0) {
 				listener.shoot();
-				Projectile projectile = new Projectile(player.position.x - Player.PLAYER_WIDTH , player.position.y);
+				Projectile projectile = new Projectile(player.position.x, player.position.y);
 				projectiles.add(projectile);
 				player.projectileShot();
+				Settings.addShot();
 			}else {
 				listener.noAmmo();
 			}
@@ -168,6 +246,11 @@ public class World {
 			Coin coin = coins.get(i);
 			coin.update(deltaTime);
 		}
+		for (int i = 0; i < coins.size(); i++) {
+			Coin coin = coins.get(i);
+			if (coin.position.y + 10 < heightSoFar)
+				coins.remove(coin);
+		}
 	}
     private void updateSupplies (float deltaTime) {
         int len = supplies.size();
@@ -175,14 +258,19 @@ public class World {
             Supply supply = supplies.get(i);
             supply.update(deltaTime);
         }
+		for (int i = 0; i < supplies.size(); i++) {
+			Supply suply = supplies.get(i);
+			if (suply.position.y + 10 < heightSoFar)
+				supplies.remove(suply);
+		}
     }
 
 
     private void checkCollisions () {
 		checkEnemiesCollisions();
 		checkItemCollisions();
-		checkCastleCollisions();
 		checkBlockCollisions();
+		checkSquareBlockCollisions();
 	}
 
 
@@ -193,11 +281,29 @@ public class World {
 			Block block = blocks.get(i);
 			if (block.bounds.overlaps(player.bounds) && block.state != Block.BLOCK_STATE_PULVERIZING) {
 				player.hitBlock();
-				listener.hit();
 			}
 			for (int j = 0; j < len_proj; j++) {
 				Projectile projectile = projectiles.get(j);
 				if (block.bounds.overlaps(projectile.bounds) && block.state != Block.BLOCK_STATE_PULVERIZING && projectile.state != Projectile.PROJECTILE_STATE_DESTROY) {
+					listener.hit();
+					block.hitProjectile();
+					projectile.hitBox();
+				}
+			}
+		}
+	}
+
+	private void checkSquareBlockCollisions () {
+		int len = squareBlocks.size();
+		int len_proj = projectiles.size();
+		for (int i = 0; i < len; i++) {
+			SquareBlock block = squareBlocks.get(i);
+			if (block.bounds.overlaps(player.bounds) && block.state != SquareBlock.BLOCK_STATE_PULVERIZING) {
+				player.hitBlock();
+			}
+			for (int j = 0; j < len_proj; j++) {
+				Projectile projectile = projectiles.get(j);
+				if (block.bounds.overlaps(projectile.bounds) && block.state != SquareBlock.BLOCK_STATE_PULVERIZING && projectile.state != Projectile.PROJECTILE_STATE_DESTROY) {
 					listener.hit();
 					block.hitProjectile();
 					projectile.hitBox();
@@ -243,15 +349,27 @@ public class World {
 
 	}
 
-	private void checkCastleCollisions () {
-		if (castle.bounds.overlaps(player.bounds)) {
-			state = WORLD_STATE_NEXT_LEVEL;
-		}
-	}
+	private  void GenerateRow(float y){
 
-	private void checkGameOver () {
-		if (heightSoFar - 7.5f > player.position.y) {
-			state = WORLD_STATE_GAME_OVER;
+		for (float i=0.5f;i<WORLD_WIDTH;i=i+ SquareBlock.BLOCK_WIDTH + 0.4f) {
+			SquareBlock block = new SquareBlock(SquareBlock.BLOCK_TYPE_STATIC, i, y + 20, GenerateLives());
+			squareBlocks.add(block);
 		}
+
+	}
+	private int GenerateLives(){
+
+		int squareBlockLives;
+		float random = rand.nextFloat();
+		if(random>0.75f){
+			squareBlockLives = 3;
+		}
+		else if(random>0.4f && random<0.75f){
+			squareBlockLives = 2;
+		}
+		else
+			squareBlockLives = 1;
+
+		return squareBlockLives;
 	}
 }

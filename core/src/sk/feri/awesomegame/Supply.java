@@ -1,8 +1,8 @@
 package sk.feri.awesomegame;
 
 public class Supply extends GameObject {
-	public static final float SUPPLY_WIDTH = 0.3f;
-	public static final float SUPPLY_HEIGHT = 0.3f;
+	public static final float SUPPLY_WIDTH = 1f;
+	public static final float SUPPLY_HEIGHT = 1f;
 
 	public int SUPPLY_QUANTITY;
 	float stateTime;

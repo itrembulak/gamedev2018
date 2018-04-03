@@ -32,6 +32,7 @@ public class GameScreen extends ScreenAdapter {
 	int lastScore;
 	String scoreString;
 	String bulletsString;
+	boolean gameOverSleep;
 
 	GlyphLayout glyphLayout = new GlyphLayout();
 
@@ -46,11 +47,6 @@ public class GameScreen extends ScreenAdapter {
 			@Override
 			public void noAmmo () {
 				Assets.playSound(Assets.noAmmoSound);
-			}
-
-			@Override
-			public void highJump () {
-				Assets.playSound(Assets.highJumpSound);
 			}
 
 			@Override
@@ -72,6 +68,7 @@ public class GameScreen extends ScreenAdapter {
 			public void supply () {
 				Assets.playSound(Assets.supplySound);
 			}
+
 		};
 		world = new World(worldListener);
 		renderer = new WorldRenderer(game.batcher, world);
@@ -80,7 +77,8 @@ public class GameScreen extends ScreenAdapter {
 		quitBounds = new Rectangle(160 - 96, 240 - 36, 192, 36);
 		lastScore = 0;
 		scoreString = "SCORE: 0";
-		bulletsString = "Bullets: " + world.player.getProjectile_count();
+		bulletsString = "BULLETS: " + world.player.getProjectileCount();
+		gameOverSleep = false;
 	}
 
 	public void update (float deltaTime) {
@@ -137,18 +135,22 @@ public class GameScreen extends ScreenAdapter {
 			lastScore = world.score;
 			scoreString = "SCORE: " + lastScore;
 		}
-		bulletsString = "BULLETS: " + world.player.getProjectile_count();
+		bulletsString = "BULLETS: " + world.player.getProjectileCount();
 		if (world.state == World.WORLD_STATE_NEXT_LEVEL) {
 			game.setScreen(new WinScreen(game));
 		}
 		if (world.state == World.WORLD_STATE_GAME_OVER) {
 			state = GAME_OVER;
-			if (lastScore >= Settings.highscores[4])
+			if (lastScore >= Settings.highscores[Settings.difficulty - 1][4])
 				scoreString = "NEW HIGHSCORE: " + lastScore;
 			else
 				scoreString = "SCORE: " + lastScore;
+
 			Settings.addScore(lastScore);
+			Settings.addAtenpt();
+			Settings.addDistance(world.distanceTravelled);
 			Settings.save();
+			Assets.playSound(Assets.gameOverSound);
 		}
 	}
 
@@ -206,7 +208,6 @@ public class GameScreen extends ScreenAdapter {
 			presentPaused();
 			break;
 		case GAME_LEVEL_END:
-			presentLevelEnd();
 			break;
 		case GAME_OVER:
 			presentGameOver();
@@ -230,17 +231,18 @@ public class GameScreen extends ScreenAdapter {
 		Assets.font.draw(game.batcher, scoreString, 16, 480 - 20);
 	}
 
-	private void presentLevelEnd () {
-		glyphLayout.setText(Assets.font, "the princess is ...");
-		Assets.font.draw(game.batcher, glyphLayout, 160 - glyphLayout.width / 2, 480 - 40);
-		glyphLayout.setText(Assets.font, "in another castle!");
-		Assets.font.draw(game.batcher, glyphLayout, 160 - glyphLayout.width / 2, 40);
-	}
-
 	private void presentGameOver () {
 		game.batcher.draw(Assets.gameOver, 160 - 160 / 2, 240 - 96 / 2, 160, 96);
 		glyphLayout.setText(Assets.font, scoreString);
 		Assets.font.draw(game.batcher, scoreString, 160 - glyphLayout.width / 2, 480 - 20);
+		if (!gameOverSleep){
+			try {
+				Thread.sleep(700);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			gameOverSleep = true;
+		}
 	}
 
 	@Override

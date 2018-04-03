@@ -5,13 +5,12 @@ package sk.feri.awesomegame;
  public class Player extends DynamicGameObject {
 	public static final int PLAYER_STATE_NORMAL = 0;
 	public static final int PLAYER_STATE_HIT = 1;
-	public static final float PLAYER_JUMP_VELOCITY = 11;
 	public static final float PLAYER_MOVE_VELOCITY = 30;
 	public static final float PLAYER_WIDTH = 0.8f;
 	public static final float PLAYER_HEIGHT = 0.8f;
-	public static final float PLAYER_MOVE_UP_VELOCITY = 5;
+	public static float PLAYER_MOVE_UP_VELOCITY = 5;
 
-	 private int projectile_count;
+	 private int projectilesCount = 20;
 	int state;
 	float stateTime;
 
@@ -19,7 +18,6 @@ package sk.feri.awesomegame;
 		super(x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
 		state = PLAYER_STATE_NORMAL;
 		stateTime = 0;
-		projectile_count = 20;
 	}
 
 	public void update (float deltaTime) {
@@ -44,7 +42,7 @@ package sk.feri.awesomegame;
 	}
 
 	 public void hitSupply(int count) {
-		 projectile_count += count;
+		 projectilesCount += count;
 	 }
 
 	 public void hitBlock () {
@@ -54,10 +52,17 @@ package sk.feri.awesomegame;
 	 }
 
 	public void projectileShot(){
-		projectile_count --;
+		projectilesCount --;
 	}
 
-	 public int getProjectile_count() {
-		 return projectile_count;
+	 public int getProjectileCount() {
+		 return projectilesCount;
+	 }
+
+	 public static void setPlayerMoveUpVelocity(float velocity){
+		 PLAYER_MOVE_UP_VELOCITY = velocity;
+	 }
+	 public void setProjectilesCount(int count){
+		 projectilesCount = count;
 	 }
  }
