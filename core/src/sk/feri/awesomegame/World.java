@@ -25,6 +25,7 @@ public class World {
 	public static final int WORLD_STATE_RUNNING = 0;
 	public static final int WORLD_STATE_NEXT_LEVEL = 1;
 	public static final int WORLD_STATE_GAME_OVER = 2;
+
 	public static final Vector2 gravity = new Vector2(0, -12);
 
 	public final Player player;
@@ -43,6 +44,10 @@ public class World {
 	public int state;
 	public int scoreLastHeight, distanceTravelled;
 
+	public float enemyDensity;
+	public float coinDensity;
+	public float supplyDensity;
+
 	public World (WorldListener listener) {
 		this.player = new Player(5, 1);
 		this.enemies = new ArrayList<Enemy>();
@@ -52,6 +57,7 @@ public class World {
 		this.blocks = new ArrayList<Block>();
 		this.squareBlocks = new ArrayList<SquareBlock>();
 		this.listener = listener;
+		setDifficultyParams();
 		rand = new Random();
 		generateLevel(0);
 
@@ -61,6 +67,32 @@ public class World {
 		this.state = WORLD_STATE_RUNNING;
 		this.scoreLastHeight = 0;
 		this.distanceTravelled = 0;
+	}
+
+	private void setDifficultyParams() {
+		switch (Settings.difficulty){
+			default: case 1:
+				Player.setPlayerMoveUpVelocity(5);
+				player.setProjectilesCount(10);
+				enemyDensity = 0.7f;
+				coinDensity = 0.6f;
+				supplyDensity = 0.15f;
+				break;
+			case 2:
+				Player.setPlayerMoveUpVelocity(5.5f);
+				player.setProjectilesCount(7);
+				enemyDensity = 0.8f;
+				coinDensity = 0.5f;
+				supplyDensity = 0.2f;
+				break;
+			case 3:
+				Player.setPlayerMoveUpVelocity(6f);
+				player.setProjectilesCount(5);
+				enemyDensity = 0.85f;
+				coinDensity = 0.4f;
+				supplyDensity = 0.25f;
+				break;
+		}
 	}
 
 	private void generateLevel (float initial) {
@@ -84,25 +116,19 @@ public class World {
 
 
 
-			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > 0.8f) {
+			if (y > WORLD_HEIGHT / 3 && rand.nextFloat() > enemyDensity) {
 				Enemy enemy = new Enemy(block.position.x + rand.nextFloat(), block.position.y
 					+ Enemy.ENEMY_HEIGHT + rand.nextFloat() * 2);
 				enemies.add(enemy);
 			}
 
-			if (rand.nextFloat() > 0.6f) {
-				Coin coin = new Coin(block.position.x + rand.nextFloat(), block.position.y + Coin.COIN_HEIGHT
-					+ rand.nextFloat() * 3);
-				coins.add(coin);
-			}
-
-            if (rand.nextFloat() > 0.6f) {
+            if (rand.nextFloat() > coinDensity) {
                 Coin coin = new Coin(block.position.x + rand.nextFloat(), block.position.y + Coin.COIN_HEIGHT
                         + rand.nextFloat() * 3);
                 coins.add(coin);
             }
 
-            if (rand.nextFloat() > 0.1f) {
+            if (rand.nextFloat() > supplyDensity) {
                 Supply supply = new Supply(block.position.x + rand.nextFloat(), block.position.y + Supply.SUPPLY_HEIGHT
                         + rand.nextFloat() * 3, 3);
                 supplies.add(supply);

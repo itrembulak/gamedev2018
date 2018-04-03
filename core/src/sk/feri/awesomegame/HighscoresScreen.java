@@ -27,7 +27,7 @@ public class HighscoresScreen extends ScreenAdapter {
 		touchPoint = new Vector3();
 		highScores = new String[5];
 		for (int i = 0; i < 5; i++) {
-			highScores[i] = i + 1 + ". " + Settings.highscores[i];
+			highScores[i] = i + 1 + ". " + Settings.highscores[Settings.difficulty -1 ][i];
 			glyphLayout.setText(Assets.font, highScores[i]);
 			xOffset = Math.max(glyphLayout.width, xOffset);
 		}

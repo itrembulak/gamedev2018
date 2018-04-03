@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import sk.feri.awesomegame.World.WorldListener;
-import sun.rmi.runtime.Log;
 
 public class GameScreen extends ScreenAdapter {
 	static final int GAME_READY = 0;
@@ -142,10 +141,11 @@ public class GameScreen extends ScreenAdapter {
 		}
 		if (world.state == World.WORLD_STATE_GAME_OVER) {
 			state = GAME_OVER;
-			if (lastScore >= Settings.highscores[4])
+			if (lastScore >= Settings.highscores[Settings.difficulty - 1][4])
 				scoreString = "NEW HIGHSCORE: " + lastScore;
 			else
 				scoreString = "SCORE: " + lastScore;
+
 			Settings.addScore(lastScore);
 			Settings.addAtenpt();
 			Settings.addDistance(world.distanceTravelled);

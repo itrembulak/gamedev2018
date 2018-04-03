@@ -5,11 +5,22 @@ import com.badlogic.gdx.files.FileHandle;
 
 public class Settings {
 	public static boolean soundEnabled = true;
-	public static int[] highscores = new int[] {100, 80, 50, 30, 10};
+	public static int[][] highscores = {
+			new int[] {1, 1, 1, 1, 1},
+			new int[] {2, 2, 2, 2, 2},
+			new int[] {3, 3, 3, 3, 3}
+	};
 	public static int attempts = 0;
 	public static int shots = 0;
 	public static int distance = 0;
 	public final static String file = ".awesomegame";
+
+	public static int DIFFICULTY_LOW = 1;
+	public static int DIFFICULTY_MEDIUM = 2;
+	public static int DIFFICULTY_HEIGH = 3;
+	public static int difficulty = DIFFICULTY_LOW;
+
+
 
 	public static void load () {
 		try {
@@ -21,9 +32,16 @@ public class Settings {
 			attempts = Integer.parseInt(strings[1]);
 			shots = Integer.parseInt(strings[2]);
 			distance = Integer.parseInt(strings[3]);
+			difficulty = Integer.parseInt(strings[4]);
 
 			for (int i = 0; i < 5; i++) {
-				highscores[i] = Integer.parseInt(strings[i+4]);
+				highscores[0][i] = Integer.parseInt(strings[i+5]);
+			}
+			for (int i = 0; i < 5; i++) {
+				highscores[1][i] = Integer.parseInt(strings[i+10]);
+			}
+			for (int i = 0; i < 5; i++) {
+				highscores[2][i] = Integer.parseInt(strings[i+15]);
 			}
 		} catch (Throwable e) {
 			Gdx.app.log("SETTINGS", ""+e);
@@ -38,9 +56,16 @@ public class Settings {
 			filehandle.writeString(Integer.toString(attempts)+"\n", true);
 			filehandle.writeString(Integer.toString(shots)+"\n", true);
 			filehandle.writeString(Integer.toString(distance)+"\n", true);
+			filehandle.writeString(Integer.toString(difficulty)+"\n", true);
 
 			for (int i = 0; i < 5; i++) {
-				filehandle.writeString(Integer.toString(highscores[i])+"\n", true);
+				filehandle.writeString(Integer.toString(highscores[0][i])+"\n", true);
+			}
+			for (int i = 0; i < 5; i++) {
+				filehandle.writeString(Integer.toString(highscores[1][i])+"\n", true);
+			}
+			for (int i = 0; i < 5; i++) {
+				filehandle.writeString(Integer.toString(highscores[2][i])+"\n", true);
 			}
 		} catch (Throwable e) {
 			Gdx.app.log("SETTINGS", ""+e);
@@ -49,10 +74,10 @@ public class Settings {
 
 	public static void addScore (int score) {
 		for (int i = 0; i < 5; i++) {
-			if (highscores[i] < score) {
+			if (highscores[difficulty -1][i] < score) {
 				for (int j = 4; j > i; j--)
-					highscores[j] = highscores[j - 1];
-				highscores[i] = score;
+					highscores[difficulty -1][j] = highscores[difficulty -1][j - 1];
+				highscores[difficulty -1][i] = score;
 				break;
 			}
 		}
@@ -65,6 +90,9 @@ public class Settings {
 		shots++;
 	}
 	public static void addDistance(int increment){
-		distance = increment;
+		distance += increment;
+	}
+	public static void setDifficulty(int newDifficulty){
+		difficulty = newDifficulty;
 	}
 }
