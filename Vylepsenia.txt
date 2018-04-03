@@ -1,10 +1,10 @@
 ﻿zrychlit animaciu nicenia blockov				DONE
-pridat obtiaznosti na vyber
+pridat obtiaznosti na vyber                     DONE
 aby sa animacia hraca neotacala zrkadlovo na mieste
 zmenit svet na nekonecny					DONE
 high score
 pridat help screen
-prejdena vzdialenosť pripocitať ku score    DONE
+prejdena vzdialenosť pripocitať ku score                            DONE
 Ak su blocky generovane v rade, zboku nebudu smrtiace
 po smrti chvilkovy freeze, aby sa hrac nahodou nepreklikal dalej        DONE - Nebude lepsie riesenie tam dat tlacitko quit ?
 
