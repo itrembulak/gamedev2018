@@ -105,8 +105,11 @@ public class MainMenuScreen extends ScreenAdapter {
 
 		Assets.font.draw(game.batcher, difficultyString, 90, 60);
 		game.batcher.draw(Assets.SquareBlockG, 200, 10, 30, 30);
-		game.batcher.draw(Assets.SquareBlockB, 240, 10, 30, 30);
+		game.batcher.draw(Assets.SquareBlockY, 240, 10, 30, 30);
 		game.batcher.draw(Assets.SquareBlockR, 280, 10, 30, 30);
+		game.batcher.draw(Assets.number1, 205, 15, 20, 20);
+		game.batcher.draw(Assets.number2, 245, 15, 20, 20);
+		game.batcher.draw(Assets.number3, 285, 15, 20, 20);
 
 		game.batcher.end();	
 	}

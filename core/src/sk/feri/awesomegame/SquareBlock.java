@@ -19,6 +19,7 @@ public class SquareBlock extends DynamicGameObject {
     int state;
     float stateTime;
     int lives;
+    int color;
 
 
     public SquareBlock(int type, float x, float y, int lives) {
@@ -30,6 +31,7 @@ public class SquareBlock extends DynamicGameObject {
             velocity.x = BLOCK_VELOCITY;
         }
         this.lives = lives;
+        this.color = lives;
     }
 
     public void update (float deltaTime) {
