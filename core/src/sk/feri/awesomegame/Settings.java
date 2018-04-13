@@ -14,6 +14,7 @@ public class Settings {
 	public static int shots = 0;
 	public static int distance = 0;
 	public final static String file = ".awesomegame";
+	public static int maxHeight[] = {0, 0, 0};
 
 	public static int DIFFICULTY_LOW = 1;
 	public static int DIFFICULTY_MEDIUM = 2;
@@ -33,15 +34,18 @@ public class Settings {
 			shots = Integer.parseInt(strings[2]);
 			distance = Integer.parseInt(strings[3]);
 			difficulty = Integer.parseInt(strings[4]);
+			maxHeight[0] = Integer.parseInt(strings[5]);
+			maxHeight[1] = Integer.parseInt(strings[6]);
+			maxHeight[2] = Integer.parseInt(strings[7]);
 
 			for (int i = 0; i < 5; i++) {
-				highscores[0][i] = Integer.parseInt(strings[i+5]);
+				highscores[0][i] = Integer.parseInt(strings[i+8]);
 			}
 			for (int i = 0; i < 5; i++) {
-				highscores[1][i] = Integer.parseInt(strings[i+10]);
+				highscores[1][i] = Integer.parseInt(strings[i+13]);
 			}
 			for (int i = 0; i < 5; i++) {
-				highscores[2][i] = Integer.parseInt(strings[i+15]);
+				highscores[2][i] = Integer.parseInt(strings[i+18]);
 			}
 		} catch (Throwable e) {
 			Gdx.app.log("SETTINGS", ""+e);
@@ -57,6 +61,9 @@ public class Settings {
 			filehandle.writeString(Integer.toString(shots)+"\n", true);
 			filehandle.writeString(Integer.toString(distance)+"\n", true);
 			filehandle.writeString(Integer.toString(difficulty)+"\n", true);
+			filehandle.writeString(Integer.toString(maxHeight[0])+"\n", true);
+			filehandle.writeString(Integer.toString(maxHeight[1])+"\n", true);
+			filehandle.writeString(Integer.toString(maxHeight[2])+"\n", true);
 
 			for (int i = 0; i < 5; i++) {
 				filehandle.writeString(Integer.toString(highscores[0][i])+"\n", true);
@@ -95,4 +102,9 @@ public class Settings {
 	public static void setDifficulty(int newDifficulty){
 		difficulty = newDifficulty;
 	}
+	public static void setMaxDistance(int height){
+		if (maxHeight[difficulty - 1] < height)
+			maxHeight[difficulty - 1] = height;
+	}
+	public static int getMaxDistance(){ return maxHeight[difficulty - 1]; }
 }

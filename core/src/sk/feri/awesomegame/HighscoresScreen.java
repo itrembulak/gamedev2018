@@ -16,7 +16,7 @@ public class HighscoresScreen extends ScreenAdapter {
 	String[] highScores;
 	float xOffset = 0;
 	GlyphLayout glyphLayout = new GlyphLayout();
-	String attemptsString, shotsString, distanceString;
+	String attemptsString, shotsString, distanceString, maxDistanceString, difficultyString;
 
 	public HighscoresScreen (AwesomeGame game) {
 		this.game = game;
@@ -35,7 +35,9 @@ public class HighscoresScreen extends ScreenAdapter {
 
 		attemptsString = "GAMES PLAYED: " + Settings.attempts;
 		shotsString = "NO. SHOTS: " + Settings.shots;
-		distanceString = "DISTNCE: " + Settings.distance + " cm";
+		distanceString = "DIST.: " + Settings.distance + " cm";
+		maxDistanceString = "MAX DIST.: " + Settings.getMaxDistance() + " cm";
+		difficultyString = "DIFFICULTY: " + Settings.difficulty;
 	}
 
 	public void update () {
@@ -63,6 +65,8 @@ public class HighscoresScreen extends ScreenAdapter {
 
 		game.batcher.enableBlending();
 		game.batcher.begin();
+
+		Assets.font.draw(game.batcher, difficultyString, xOffset/2, 360 + 32);
 		game.batcher.draw(Assets.highScoresRegion, 10, 360 - 16, 300, 33);
 
 		float y = 230;
@@ -74,6 +78,7 @@ public class HighscoresScreen extends ScreenAdapter {
 		Assets.font.draw(game.batcher, attemptsString, 10, 170);
 		Assets.font.draw(game.batcher, shotsString, 10, 150);
 		Assets.font.draw(game.batcher, distanceString, 10, 130);
+		Assets.font.draw(game.batcher, maxDistanceString, 10, 110);
 
 		game.batcher.draw(Assets.arrow, 0, 0, 64, 64);
 		game.batcher.end();
