@@ -27,9 +27,14 @@ package sk.feri.awesomegame;
 
 		velocity.y = PLAYER_MOVE_UP_VELOCITY;
 
-		float wallMargin = (bounds.getWidth() / 2) + 0.1f;
+		// Block on side borders
+		/*float wallMargin = (bounds.getWidth() / 2) + 0.1f;
 		if (position.x <  wallMargin) position.x = wallMargin;
-		if (position.x > World.WORLD_WIDTH - wallMargin) position.x = World.WORLD_WIDTH - wallMargin;
+		if (position.x > World.WORLD_WIDTH - wallMargin) position.x = World.WORLD_WIDTH - wallMargin;*/
+
+		// Go through the side borders
+		if (position.x < 0) position.x = World.WORLD_WIDTH;
+		if (position.x > World.WORLD_WIDTH) position.x = 0;
 
 		stateTime += deltaTime;
 	}
