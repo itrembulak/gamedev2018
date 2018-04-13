@@ -1,5 +1,5 @@
 <?php
-    //getscore.php?order_by=score&limit=5
+    //getscore.php?order_by=score&limit=5&difficulty=1
 
     // Configuration
     $hostname = 'localhot';
@@ -9,7 +9,7 @@
     $database = 'yourdatabase';
 
     $secretKey = "totojenajtajnejsikluc"; // Change this value to match the value stored in the app
- 
+
     try {
         $dbh = new PDO('mysql:host='. $hostname .';port='.$port.';dbname='. $database, $username, $password);
     } catch(PDOException $e) {
@@ -18,7 +18,7 @@
                 'messages' => array(
                     'message' => 'Database connection error'
                 )
-            )); 
+            ));
             return;
     }
 
@@ -33,11 +33,12 @@
         $limit = (int) $_GET['limit'];
     else
         $limit = 5;
+    $difficulty = (int) $_GET['difficulty'];
 
-    $stmt = $dbh->prepare('SELECT * FROM scores ORDER BY '.$order.' DESC LIMIT ' . $limit);
-    $stmt->execute();
-    $result = $stmt->fetchAll(); 
-    
+    $stmt = $dbh->prepare('SELECT * FROM scores WHERE difficulty=? ORDER BY '.$order.' DESC LIMIT ' . $limit);
+    $stmt->execute([$difficulty]);
+    $result = $stmt->fetchAll();
+
     $data = array();
     foreach($result as $row){
         array_push($data, [
@@ -46,6 +47,7 @@
             'max_distance' => $row['max_distance'],
             'distance' => $row['distance'],
             'games_played' => $row['games_played'],
+            'difficulty' => $row['difficulty'],
             'username' => $row['username'],
             'last_update' => $row['last_update']
         ]);

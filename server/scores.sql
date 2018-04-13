@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hostiteľ: 127.0.0.1:3312
--- Čas generovania: Pi 13.Apr 2018, 15:01
+-- Čas generovania: Pi 13.Apr 2018, 15:41
 -- Verzia serveru: 10.1.30-MariaDB-1~xenial
 -- Verzia PHP: 7.0.28-0ubuntu0.16.04.1
 
@@ -36,8 +36,10 @@ CREATE TABLE `scores` (
   `games_played` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `device_id` varchar(255) NOT NULL,
+  `difficulty` int(11) NOT NULL,
   `last_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 --
 -- Kľúče pre exportované tabuľky
@@ -57,7 +59,7 @@ ALTER TABLE `scores`
 -- AUTO_INCREMENT pre tabuľku `scores`
 --
 ALTER TABLE `scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

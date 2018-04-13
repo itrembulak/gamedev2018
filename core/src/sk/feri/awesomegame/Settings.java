@@ -15,6 +15,7 @@ public class Settings {
 	public static int distance = 0;
 	public final static String file = ".awesomegame";
 	public static int maxHeight[] = {0, 0, 0};
+	public static String username = "Annonym"+ (int)(Math.random() * 9999);
 
 	public static int DIFFICULTY_LOW = 1;
 	public static int DIFFICULTY_MEDIUM = 2;
@@ -37,15 +38,17 @@ public class Settings {
 			maxHeight[0] = Integer.parseInt(strings[5]);
 			maxHeight[1] = Integer.parseInt(strings[6]);
 			maxHeight[2] = Integer.parseInt(strings[7]);
+			username = strings[8];
+
 
 			for (int i = 0; i < 5; i++) {
-				highscores[0][i] = Integer.parseInt(strings[i+8]);
+				highscores[0][i] = Integer.parseInt(strings[i+9]);
 			}
 			for (int i = 0; i < 5; i++) {
-				highscores[1][i] = Integer.parseInt(strings[i+13]);
+				highscores[1][i] = Integer.parseInt(strings[i+14]);
 			}
 			for (int i = 0; i < 5; i++) {
-				highscores[2][i] = Integer.parseInt(strings[i+18]);
+				highscores[2][i] = Integer.parseInt(strings[i+19]);
 			}
 		} catch (Throwable e) {
 			Gdx.app.log("SETTINGS", ""+e);
@@ -64,6 +67,7 @@ public class Settings {
 			filehandle.writeString(Integer.toString(maxHeight[0])+"\n", true);
 			filehandle.writeString(Integer.toString(maxHeight[1])+"\n", true);
 			filehandle.writeString(Integer.toString(maxHeight[2])+"\n", true);
+			filehandle.writeString(username+"\n", true);
 
 			for (int i = 0; i < 5; i++) {
 				filehandle.writeString(Integer.toString(highscores[0][i])+"\n", true);
@@ -107,4 +111,7 @@ public class Settings {
 			maxHeight[difficulty - 1] = height;
 	}
 	public static int getMaxDistance(){ return maxHeight[difficulty - 1]; }
+	public static void setUsername(String newUsername){
+		username = newUsername;
+	}
 }
