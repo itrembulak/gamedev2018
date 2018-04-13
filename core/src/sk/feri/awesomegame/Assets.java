@@ -23,6 +23,9 @@ public class Assets {
 	public static TextureRegion arrow;
 	public static TextureRegion pause;
 	public static TextureRegion supply;
+	public static TextureRegion number1;
+	public static TextureRegion number2;
+	public static TextureRegion number3;
 	public static Animation coinAnim;
 
 
@@ -35,12 +38,14 @@ public class Assets {
 	public static Texture textures;
 	public static TextureRegion SquareBlockR;
 	public static TextureRegion SquareBlockG;
-	public static TextureRegion SquareBlockB;
+	public static TextureRegion SquareBlockY;
 	public static Animation playerNormal;
 	public static TextureRegion logo;
 	public static Animation projectileAnim;
 	public static TextureRegion playerHit;
-	public static Animation breakingSquareBlock;
+	public static Animation breakingSquareBlockR;
+	public static Animation breakingSquareBlockY;
+	public static Animation breakingSquareBlockG;
 	//public static TextureRegion playerNormal;
 
 	public static Music music;
@@ -88,17 +93,21 @@ public class Assets {
 
 		//hraniciar = loadTexture("data/hraniciar.png");
 		textures = loadTexture("data/textures.png");
-		SquareBlockR = new TextureRegion(textures, 0, 188, 16, 16);
-		SquareBlockG = new TextureRegion(textures, 0, 220, 16, 16);
-		SquareBlockB = new TextureRegion(textures, 0, 204, 16, 16);
-		playerNormal = new Animation(0.2f, new TextureRegion(textures, 0, 0, 32, 32), new TextureRegion(textures, 32, 0, 32, 32));
+		SquareBlockG = new TextureRegion(textures, 0, 103, 32, 32);
+		SquareBlockY = new TextureRegion(textures, 0, 135, 32, 32);
+		SquareBlockR = new TextureRegion(textures, 0, 167, 32, 32);
+		playerNormal = new Animation(0.2f, new TextureRegion(textures, 0, 203, 62, 62), new TextureRegion(textures, 62, 203, 62, 62), new TextureRegion(textures, 124, 203, 62, 62));
 		logo = new TextureRegion(textures, 0, 352, 274, 142);
 		projectileAnim  = new Animation(0.2f, new TextureRegion(textures, 0, 34, 5, 11), new TextureRegion(textures, 5, 34, 5, 11), new TextureRegion(textures, 10, 34, 5, 11),
 										new TextureRegion(textures, 15, 34, 5, 11), new TextureRegion(textures, 20, 34, 5, 11));
 		supply = new TextureRegion(textures, 128, 0, 32, 32);
-		playerHit = new TextureRegion(textures, 64, 0, 32, 32);
-		breakingSquareBlock  = new Animation(0.2f, new TextureRegion(textures, 0, 236, 16, 16),new TextureRegion(textures, 16, 236, 16, 16),new TextureRegion(textures, 32, 236, 16, 16));
-
+		playerHit = new TextureRegion(textures, 186, 203, 62, 62);
+		breakingSquareBlockG  = new Animation(0.2f, new TextureRegion(textures, 32, 103, 32, 32),new TextureRegion(textures, 64, 103, 32, 32),new TextureRegion(textures, 96, 103, 32, 32));
+		breakingSquareBlockY  = new Animation(0.2f, new TextureRegion(textures, 32, 135, 32, 32),new TextureRegion(textures, 64, 135, 32, 32),new TextureRegion(textures, 96, 135, 32, 32));
+		breakingSquareBlockR  = new Animation(0.2f, new TextureRegion(textures, 32, 167, 32, 32),new TextureRegion(textures, 64, 167, 32, 32),new TextureRegion(textures, 96, 167, 32, 32));
+		number1 = new TextureRegion(items, 243, 23, 14, 14);
+		number2 = new TextureRegion(items, 258, 23, 14, 14);
+		number3 = new TextureRegion(items, 273, 23, 14, 14);
 
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"), Gdx.files.internal("data/font.png"), false);
 

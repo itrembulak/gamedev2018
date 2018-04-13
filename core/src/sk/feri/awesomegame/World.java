@@ -106,9 +106,9 @@ public class World {
 
 			float variant = rand.nextFloat();
 			SquareBlock block = new SquareBlock(type, x, y + 20, GenerateLives());
+
 			if(variant<0.8f) {
 				squareBlocks.add(block);
-
 			}
 			else {
 				GenerateRow(y);

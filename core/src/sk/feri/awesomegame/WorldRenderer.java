@@ -84,22 +84,39 @@ public class WorldRenderer {
 		for (int i = 0; i < len; i++) {
 			SquareBlock block = world.squareBlocks.get(i);
 			TextureRegion keyFrame;
-			if(block.lives==3){
+			if(block.color==3){
 				keyFrame = Assets.SquareBlockR;
 			}
 			else
-			if(block.lives==2){
-				keyFrame = Assets.SquareBlockB;
+			if(block.color==2){
+				keyFrame = Assets.SquareBlockY;
 			}
 			else
 			{
 				keyFrame = Assets.SquareBlockG;
 			}
-			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING) {
-				keyFrame = Assets.breakingSquareBlock.getKeyFrame(block.stateTime, Animation.ANIMATION_NONLOOPING);
+			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING && block.color ==3) {
+				keyFrame = Assets.breakingSquareBlockR.getKeyFrame(block.stateTime, Animation.ANIMATION_NONLOOPING);
+			}
+			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING && block.color ==2) {
+				keyFrame = Assets.breakingSquareBlockY.getKeyFrame(block.stateTime, Animation.ANIMATION_NONLOOPING);
+			}
+			if (block.state == SquareBlock.BLOCK_STATE_PULVERIZING && block.color ==1) {
+				keyFrame = Assets.breakingSquareBlockG.getKeyFrame(block.stateTime, Animation.ANIMATION_NONLOOPING);
 			}
 
 			batch.draw(keyFrame, block.position.x - 0.7f, block.position.y - 0.7f, 1.4f, 1.4f);
+
+			if(block.lives==3 && block.state == SquareBlock.BLOCK_STATE_NORMAL){
+				batch.draw(Assets.number3, block.position.x - 0.4f, block.position.y - 0.4f, 0.8f, 0.8f);
+			}
+			if(block.lives==2 && block.state == SquareBlock.BLOCK_STATE_NORMAL){
+				batch.draw(Assets.number2, block.position.x - 0.4f, block.position.y - 0.4f, 0.8f, 0.8f);
+			}
+			if(block.lives==1 && block.state == SquareBlock.BLOCK_STATE_NORMAL){
+				batch.draw(Assets.number1, block.position.x - 0.4f, block.position.y - 0.4f, 0.8f, 0.8f);
+			}
+
 		}
 	}
 
