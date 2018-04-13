@@ -108,7 +108,7 @@ public class WorldRenderer {
 			batch.draw(keyFrame, block.position.x - 0.7f, block.position.y - 0.7f, 1.4f, 1.4f);
 
 			if(block.lives==3 && block.state == SquareBlock.BLOCK_STATE_NORMAL){
-				batch.draw(Assets.number3, block.position.x - 0.4f, block.position.y - 0.4f, 0.8f, 0.8f);
+				batch.draw(Assets.number3, block.position.x - 0.5f, block.position.y - 0.4f, 0.8f, 0.8f);
 			}
 			if(block.lives==2 && block.state == SquareBlock.BLOCK_STATE_NORMAL){
 				batch.draw(Assets.number2, block.position.x - 0.4f, block.position.y - 0.4f, 0.8f, 0.8f);

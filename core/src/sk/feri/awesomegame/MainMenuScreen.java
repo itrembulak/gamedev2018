@@ -109,7 +109,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		game.batcher.draw(Assets.SquareBlockR, 280, 10, 30, 30);
 		game.batcher.draw(Assets.number1, 205, 15, 20, 20);
 		game.batcher.draw(Assets.number2, 245, 15, 20, 20);
-		game.batcher.draw(Assets.number3, 285, 15, 20, 20);
+		game.batcher.draw(Assets.number3, 283, 15, 20, 20);
 
 		game.batcher.end();	
 	}

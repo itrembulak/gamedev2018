@@ -105,9 +105,9 @@ public class Assets {
 		breakingSquareBlockG  = new Animation(0.2f, new TextureRegion(textures, 32, 103, 32, 32),new TextureRegion(textures, 64, 103, 32, 32),new TextureRegion(textures, 96, 103, 32, 32));
 		breakingSquareBlockY  = new Animation(0.2f, new TextureRegion(textures, 32, 135, 32, 32),new TextureRegion(textures, 64, 135, 32, 32),new TextureRegion(textures, 96, 135, 32, 32));
 		breakingSquareBlockR  = new Animation(0.2f, new TextureRegion(textures, 32, 167, 32, 32),new TextureRegion(textures, 64, 167, 32, 32),new TextureRegion(textures, 96, 167, 32, 32));
-		number1 = new TextureRegion(items, 243, 23, 14, 14);
-		number2 = new TextureRegion(items, 258, 23, 14, 14);
-		number3 = new TextureRegion(items, 273, 23, 14, 14);
+		number1 = new TextureRegion(textures, 0, 51, 16, 22);
+		number2 = new TextureRegion(textures, 16, 51, 16, 22);
+		number3 = new TextureRegion(textures, 32, 51, 16, 22);
 
 		font = new BitmapFont(Gdx.files.internal("data/font.fnt"), Gdx.files.internal("data/font.png"), false);
 
