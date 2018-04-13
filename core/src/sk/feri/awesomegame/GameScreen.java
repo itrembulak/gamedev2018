@@ -79,6 +79,11 @@ public class GameScreen extends ScreenAdapter {
 		scoreString = "SCORE: 0";
 		bulletsString = "BULLETS: " + world.player.getProjectileCount();
 		gameOverSleep = false;
+
+		if (Settings.attempts == 0){
+			UsernameInputListener listener = new UsernameInputListener();
+			Gdx.input.getTextInput(listener, "Set your Username (max 15 alphanumeric chars)", Settings.username, "Set your Username");
+		}
 	}
 
 	public void update (float deltaTime) {
@@ -239,7 +244,7 @@ public class GameScreen extends ScreenAdapter {
 		Assets.font.draw(game.batcher, scoreString, 160 - glyphLayout.width / 2, 480 - 20);
 		if (!gameOverSleep){
 			try {
-				Thread.sleep(700);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -16,6 +16,7 @@ public class MainMenuScreen extends ScreenAdapter {
 	Rectangle playBounds;
 	Rectangle highscoresBounds;
 	Rectangle helpBounds;
+	Rectangle usernameBounds;
 	Vector3 touchPoint;
 	String difficultyString;
 
@@ -25,6 +26,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		guiCam = new OrthographicCamera(320, 480);
 		guiCam.position.set(320 / 2, 480 / 2, 0);
 		soundBounds = new Rectangle(0, 0, 64, 64);
+		usernameBounds = new Rectangle(160, 10, 30, 30);
 		lowBounds = new Rectangle(200, 10, 30, 30);
 		mediumBounds = new Rectangle(240, 10, 30, 30);
 		heighBounds = new Rectangle(280, 10, 30, 30);
@@ -87,6 +89,10 @@ public class MainMenuScreen extends ScreenAdapter {
 				Settings.save();
 				difficultyString = "DIFFICULTY: " + Settings.difficulty;
 			}
+			if (usernameBounds.contains(touchPoint.x, touchPoint.y)) {
+				UsernameInputListener listener = new UsernameInputListener();
+				Gdx.input.getTextInput(listener, "Set your Username (max 15 alphanumeric chars)", Settings.username, "Set your Username");
+			}
 		}
 	}
 
@@ -107,6 +113,8 @@ public class MainMenuScreen extends ScreenAdapter {
 		game.batcher.draw(Assets.logo, 160 - 274 / 2, 480 - 10 - 142, 274, 142);
 		game.batcher.draw(Assets.mainMenu, 10, 200 - 110 / 2, 300, 110);
 		game.batcher.draw(Settings.soundEnabled ? Assets.soundOn : Assets.soundOff, 0, 0, 64, 64);
+
+		game.batcher.draw(Assets.SquareBlockR, 160, 10, 30, 30);
 
 		Assets.font.draw(game.batcher, difficultyString, 90, 60);
 		game.batcher.draw(Assets.SquareBlockG, 200, 10, 30, 30);

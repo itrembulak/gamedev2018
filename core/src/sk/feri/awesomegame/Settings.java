@@ -6,16 +6,16 @@ import com.badlogic.gdx.files.FileHandle;
 public class Settings {
 	public static boolean soundEnabled = true;
 	public static int[][] highscores = {
-			new int[] {1, 1, 1, 1, 1},
-			new int[] {2, 2, 2, 2, 2},
-			new int[] {3, 3, 3, 3, 3}
+			new int[] {0, 0, 0, 0, 0},
+			new int[] {0, 0, 0, 0, 0},
+			new int[] {0, 0, 0, 0, 0}
 	};
 	public static int attempts = 0;
 	public static int shots = 0;
 	public static int distance = 0;
 	public final static String file = ".awesomegame";
 	public static int maxHeight[] = {0, 0, 0};
-	public static String username = "Annonym"+ (int)(Math.random() * 9999);
+	public static String username = "Annonymous"+ (int)(Math.random() * 9999);
 
 	public static int DIFFICULTY_LOW = 1;
 	public static int DIFFICULTY_MEDIUM = 2;
@@ -113,5 +113,17 @@ public class Settings {
 	public static int getMaxDistance(){ return maxHeight[difficulty - 1]; }
 	public static void setUsername(String newUsername){
 		username = newUsername;
+	}
+
+	public static void resetSettings(){
+		highscores[0][0] = highscores[0][1] = highscores[0][2] = highscores[0][3] = highscores[0][4] = 0;
+		highscores[1][0] = highscores[1][1] = highscores[1][2] = highscores[1][3] = highscores[1][4] = 0;
+		highscores[2][0] = highscores[2][1] = highscores[2][2] = highscores[2][3] = highscores[2][4] = 0;
+		attempts = 0;
+		shots = 0;
+		distance = 0;
+
+		maxHeight[0] = maxHeight[1] = maxHeight[2] = 0;
+		username = "Annonymous"+ (int)(Math.random() * 9999);
 	}
 }
