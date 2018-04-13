@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.ArrayList;
+
 public class MainMenuScreen extends ScreenAdapter {
 	AwesomeGame game;
 	OrthographicCamera guiCam;
@@ -35,6 +37,9 @@ public class MainMenuScreen extends ScreenAdapter {
 		helpBounds = new Rectangle();
 		touchPoint = new Vector3();
 		difficultyString = "DIFFICULTY: " + Settings.difficulty;
+
+		HighScores.loadHighScores("score",5 , Settings.difficulty);
+		HighScores.updateScore();
 	}
 
 	public void update () {
@@ -123,5 +128,6 @@ public class MainMenuScreen extends ScreenAdapter {
 	@Override
 	public void pause () {
 		Settings.save();
+		HighScores.updateScore();
 	}
 }

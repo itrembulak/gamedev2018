@@ -1,5 +1,5 @@
 <?php
-        //addscore.php?username=abcdef123&score=24&max_distance=19&distance=55&games_played=10&difficulty=1
+        //addscore.php?username=abcdef123&score=24&max_distance=19&distance=55&games_played=10&difficulty=1&hash=dfgfdmgdkf
 
         // Configuration
         $hostname = 'localhot';
@@ -10,8 +10,8 @@
 
         $secretKey = "totojenajtajnejsikluc"; // Change this value to match the value stored in the app
 
-        /*$realHash = md5($_GET['name'] . $_GET['score'] . $secretKey);
-        if($realHash != $hash) {
+        $realHash = md5($secretKey . $_GET['username']);
+        if($realHash != $_GET['hash']) {
             echo json_encode(array(
                 'success' => false,
                 'messages' => array(
@@ -19,7 +19,7 @@
                 )
             ));
             return;
-        }*/
+        }
 
         try {
             $dbCon = new PDO('mysql:host='. $hostname .';port='.$port.';dbname='. $database, $username, $password);
