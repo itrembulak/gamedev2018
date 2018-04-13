@@ -149,6 +149,7 @@ public class GameScreen extends ScreenAdapter {
 			Settings.addScore(lastScore);
 			Settings.addAtenpt();
 			Settings.addDistance(world.distanceTravelled);
+			Settings.setMaxDistance(Math.round(world.distanceTravelled));
 			Settings.save();
 			Assets.playSound(Assets.gameOverSound);
 		}
