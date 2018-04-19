@@ -8,6 +8,13 @@
     $password = 'yourpassword';
     $database = 'yourdatabase';
 
+
+    $hostname = 'mariadb101.websupport.sk';
+    $port = '3312';
+    $username = 'tftqk0yv';
+    $password = 'wQ8Z9nvPeD';
+    $database = 'tftqk0yv';
+
     $secretKey = "totojenajtajnejsikluc"; // Change this value to match the value stored in the app
 
     try {
@@ -53,8 +60,31 @@
         ]);
     }
 
+    $player = array(
+    	'rank' => 0,
+    	'value' => 0
+	);
+    if (isset($_GET['username']) && $_GET['username'] != "") {
+    	$stmt = $dbh->prepare('SELECT * FROM scores WHERE difficulty=? ORDER BY '.$order.' DESC');
+	    $stmt->execute([$difficulty]);
+	    $result = $stmt->fetchAll();
+
+	    $index = 1;
+	    foreach($result as $row){
+	    	if ($row['username'] == $_GET['username']){
+	    		$player = array(
+	    			'rank' => $index,
+	    			'value' => $row[$order]
+	    		);
+	    		break;
+	    	}
+	    	$index++;
+	    }
+    }
+
     echo json_encode(array(
         'success' => true,
-        'data' => $data
+        'data' => $data,
+        'player' => $player
     ));
 ?>

@@ -13,10 +13,12 @@ public class HighScores {
     public static final String SERVER_URL = "http://awesomegame.tomart.sk/";
     public static final String SECRET_KEY = "totojenajtajnejsikluc";
     public static ArrayList<Score> scoresList = new ArrayList<Score>();
+    public static int playerRank = 0;
+    public static int playerValue = 0;
 
     public static void loadHighScores(String orger_by, int limit, int difficulty) {
         HttpRequestBuilder builder = new HttpRequestBuilder();
-        final String url = SERVER_URL + "getscore.php?order_by=" + orger_by + "&limit=" +limit + "&difficulty=" + difficulty;
+        final String url = SERVER_URL + "getscore.php?order_by=" + orger_by + "&limit=" +limit + "&difficulty=" + difficulty + "&username=" + Settings.username;
         Net.HttpRequest request = builder.newRequest().method(Net.HttpMethods.GET).url(url).build();
         request.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -46,6 +48,10 @@ public class HighScores {
                                     componentData.getString("last_update")
                             ));
                         }
+                        JsonValue componentPlayer = base.get("player");
+                        playerRank = componentPlayer.getInt("rank");
+                        playerValue = componentPlayer.getInt("value");
+
                     }
                 } catch(Exception exception) {
                     Gdx.app.log("WebRequest 123A", "Exception" + exception);

@@ -15,7 +15,7 @@ public class Settings {
 	public static int distance = 0;
 	public final static String file = ".awesomegame";
 	public static int maxHeight[] = {0, 0, 0};
-	public static String username = "Annonymous"+ (int)(Math.random() * 9999);
+	public static String username = "Guy"+ (int)(Math.random() * 9999);
 
 	public static int DIFFICULTY_LOW = 1;
 	public static int DIFFICULTY_MEDIUM = 2;
@@ -124,6 +124,6 @@ public class Settings {
 		distance = 0;
 
 		maxHeight[0] = maxHeight[1] = maxHeight[2] = 0;
-		username = "Annonymous"+ (int)(Math.random() * 9999);
+		username = "Guy"+ (int)(Math.random() * 9999);
 	}
 }

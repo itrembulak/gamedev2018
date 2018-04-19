@@ -82,7 +82,7 @@ public class GameScreen extends ScreenAdapter {
 
 		if (Settings.attempts == 0){
 			UsernameInputListener listener = new UsernameInputListener();
-			Gdx.input.getTextInput(listener, "Set your Username (max 15 alphanumeric chars)", Settings.username, "Set your Username");
+			Gdx.input.getTextInput(listener, "Set your Username (max 7 alphanumeric chars)", Settings.username, "Set your Username");
 		}
 	}
 
