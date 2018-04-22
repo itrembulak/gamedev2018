@@ -169,6 +169,8 @@ public class World {
 	private void updatePlayer(float deltaTime, float accelX) {
 		if (player.state != Player.PLAYER_STATE_HIT) player.velocity.x = -accelX / 10 * Player.PLAYER_MOVE_VELOCITY;
 		player.update(deltaTime);
+		Player.setPlayerMoveUpVelocity(Player.PLAYER_MOVE_UP_VELOCITY + 0.000001f);
+		//Gdx.app.log("SPEED INCREMENTING", Player.PLAYER_MOVE_UP_VELOCITY + "");
 		heightSoFar = Math.max(player.position.y, heightSoFar);
 	}
 
