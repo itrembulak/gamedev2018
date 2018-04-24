@@ -116,13 +116,13 @@ public class HighscoresScreen extends ScreenAdapter {
 
 		if (drawScoreButtons) {
 			//order by buttons
-			game.batcher.draw(Assets.SquareBlockG, 160, 10, 30, 30);
-			game.batcher.draw(Assets.SquareBlockG, 200, 10, 30, 30);
-			game.batcher.draw(Assets.SquareBlockY, 240, 10, 30, 30);
-			game.batcher.draw(Assets.SquareBlockR, 280, 10, 30, 30);
+			game.batcher.draw(Assets.ButtonScore, 160, 10, 30, 30);
+			game.batcher.draw(Assets.ButtonMaxDistance, 200, 10, 30, 30);
+			game.batcher.draw(Assets.ButtonTotalDistance, 240, 10, 30, 30);
+			game.batcher.draw(Assets.ButtonGames, 280, 10, 30, 30);
 			//score buttons
-			game.batcher.draw(Assets.SquareBlockG, 240, 50, 30, 30);
-			game.batcher.draw(Assets.SquareBlockR, 280, 50, 30, 30);
+			game.batcher.draw(Assets.ButtonYou, 240, 50, 30, 30);
+			game.batcher.draw(Assets.ButtonWorld, 280, 50, 30, 30);
 		}
 		game.batcher.end();
 	}

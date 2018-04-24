@@ -39,6 +39,13 @@ public class Assets {
 	public static TextureRegion SquareBlockR;
 	public static TextureRegion SquareBlockG;
 	public static TextureRegion SquareBlockY;
+	public static TextureRegion ButtonYou;
+	public static TextureRegion ButtonWorld;
+	public static TextureRegion ButtonScore;
+	public static TextureRegion ButtonMaxDistance;
+	public static TextureRegion ButtonTotalDistance;
+	public static TextureRegion ButtonGames;
+	public static TextureRegion ButtonName;
 	public static Animation playerNormal;
 	public static TextureRegion logo;
 	public static Animation projectileAnim;
@@ -96,6 +103,13 @@ public class Assets {
 		SquareBlockG = new TextureRegion(textures, 0, 103, 32, 32);
 		SquareBlockY = new TextureRegion(textures, 0, 135, 32, 32);
 		SquareBlockR = new TextureRegion(textures, 0, 167, 32, 32);
+		ButtonWorld = new TextureRegion(textures, 35, 274, 35, 35);
+		ButtonYou= new TextureRegion(textures, 0, 274, 35, 35);
+		ButtonMaxDistance= new TextureRegion(textures, 105, 274, 35, 35);
+		ButtonTotalDistance = new TextureRegion(textures, 140, 274, 35, 35);
+		ButtonGames = new TextureRegion(textures, 175, 274, 35, 35);
+		ButtonScore = new TextureRegion(textures, 70, 274, 35, 35);
+		ButtonName = new TextureRegion(textures, 0,309 , 32, 32);
 		playerNormal = new Animation(0.2f, new TextureRegion(textures, 0, 203, 62, 62), new TextureRegion(textures, 62, 203, 62, 62), new TextureRegion(textures, 124, 203, 62, 62));
 		logo = new TextureRegion(textures, 0, 352, 274, 142);
 		projectileAnim  = new Animation(0.2f, new TextureRegion(textures, 0, 34, 5, 11), new TextureRegion(textures, 5, 34, 5, 11), new TextureRegion(textures, 10, 34, 5, 11),

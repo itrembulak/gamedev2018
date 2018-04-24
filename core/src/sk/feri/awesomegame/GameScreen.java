@@ -77,7 +77,7 @@ public class GameScreen extends ScreenAdapter {
 		quitBounds = new Rectangle(160 - 96, 240 - 36, 192, 36);
 		lastScore = 0;
 		scoreString = "SCORE: 0";
-		bulletsString = "BULLETS: " + world.player.getProjectileCount();
+		bulletsString = "ARROWS: " + world.player.getProjectileCount();
 		gameOverSleep = false;
 
 		if (Settings.attempts == 0){
@@ -140,7 +140,7 @@ public class GameScreen extends ScreenAdapter {
 			lastScore = world.score;
 			scoreString = "SCORE: " + lastScore;
 		}
-		bulletsString = "BULLETS: " + world.player.getProjectileCount();
+		bulletsString = "ARROWS: " + world.player.getProjectileCount();
 		if (world.state == World.WORLD_STATE_NEXT_LEVEL) {
 			game.setScreen(new WinScreen(game));
 		}

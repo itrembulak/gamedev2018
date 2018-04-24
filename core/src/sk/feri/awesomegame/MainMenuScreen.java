@@ -34,7 +34,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		highscoresBounds = new Rectangle(160 - 150, 200 - 18, 300, 36);
 
 		// TODO: Help tlacitko neklikaj :D
-		//helpBounds = new Rectangle(160 - 150, 200 - 18 - 36, 300, 36);
+		helpBounds = new Rectangle(160 - 150, 200 - 18 - 36, 300, 36);
 
 		helpBounds = new Rectangle();
 		touchPoint = new Vector3();
@@ -114,7 +114,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		game.batcher.draw(Assets.mainMenu, 10, 200 - 110 / 2, 300, 110);
 		game.batcher.draw(Settings.soundEnabled ? Assets.soundOn : Assets.soundOff, 0, 0, 64, 64);
 
-		game.batcher.draw(Assets.SquareBlockR, 160, 10, 30, 30);
+		game.batcher.draw(Assets.ButtonName, 160, 10, 30, 30);
 
 		Assets.font.draw(game.batcher, difficultyString, 90, 60);
 		game.batcher.draw(Assets.SquareBlockG, 200, 10, 30, 30);
